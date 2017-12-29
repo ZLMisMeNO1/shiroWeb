@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/"
+	debug="false">
+
+	<logger name="com.sample.mappers">
+		<level value="debug" />
+		<appender-ref ref="STDOUT" />
+	</logger>
+
+	<logger name="org">
+		<level value="debug" />
+	</logger>
+	<logger name="org.apache">
+		<level value="debug" />
+	</logger>
+	<logger name="cn.faketaobao.web">
+		<level value="debug" />
+	</logger>
+	<logger name="org.springframework.jdbc.core.JdbcTemplate">
+		<level value="debug" />
+	</logger>
+	<root>
+		<level value="debug" />
+		<appender-ref ref="Console" />
+		<appender-ref ref="File" />
+	</root>
+	<root>
+		<priority value="info" />
+		<appender-ref ref="STDOUT" />
+	</root>
+	<appender name="Console" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ABSOLUTE} %-5p [%t] %c{1}:%L - %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="File" class="org.apache.log4j.RollingFileAppender">
+		<param name="Encoding" value="UTF-8" />
+		<param name="File" value="${isearch.log.dir}/Learner.log" />
+		<param name="MaxFileSize" value="20MB" />
+		<param name="MaxBackupIndex" value="5" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{HH:mm:ss.SSS} %-5p [%t] %c{1} - %m%n" />
+		</layout>
+	</appender>
+
+
+
+
+	<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d [%p] %c{1} - %m%n" />
+		</layout>
+	</appender>
+
+
+</log4j:configuration>
+

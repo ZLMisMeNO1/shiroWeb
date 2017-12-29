@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:util="http://www.springframework.org/schema/util"  
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">	
+	
+	<!-- 开启组件扫描 -->
+	<context:component-scan base-package="cn.i7baoz.blog.shiroweb">
+	<!-- 	<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/> -->
+	</context:component-scan>
+	<!-- HandlerMapping -->
+	<mvc:annotation-driven>  
+        <mvc:message-converters>  
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter" />  
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />  
+        </mvc:message-converters>  
+	</mvc:annotation-driven> 
+	
+	 <aop:config proxy-target-class="true"></aop:config>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+    
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="./WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	<bean id="commonSessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="packagesToScan">
+			<list>
+				<value>cn.i7baoz.blog.shiroweb.pojo</value>
+			</list>
+		</property>
+		<property name="configLocation" value="classpath:hibernate-configs/hibernate.cfg.xml"></property>
+	</bean>
+
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="commonSessionFactory" />
+	</bean>
+
+	<!-- 配置事务传播特性 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="del*" propagation="REQUIRED" />
+			<tx:method name="execute*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="publish*" propagation="REQUIRED" />
+			<tx:method name="create*" propagation="REQUIRED" />
+			<tx:method name="custom" propagation="REQUIRED" />
+			<tx:method name="rule*" propagation="REQUIRED" />
+			<tx:method name="start*" propagation="REQUIRED" />
+			<tx:method name="accept*" propagation="REQUIRED" />
+			<tx:method name="submit*" propagation="REQUIRED" />
+			<tx:method name="*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+	<!-- 被事务管理的方法 -->
+	<aop:config>
+		<!-- 拦截 service 包中的所有方法 -->
+		<aop:pointcut id="allManagerMethod" expression="execution(* *..*Service.*(..))" />
+		<aop:advisor pointcut-ref="allManagerMethod" advice-ref="txAdvice" />
+	</aop:config>
+	
+</beans>
