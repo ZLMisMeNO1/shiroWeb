@@ -20,10 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.i7baoz.blog.shiroweb.dao.UserDao;
-import cn.i7baoz.blog.shiroweb.exception.ExceptionMsg;
 import cn.i7baoz.blog.shiroweb.exception.TraditionException;
 import cn.i7baoz.blog.shiroweb.pojo.UserBean;
 import cn.i7baoz.blog.shiroweb.service.UserService;
+import cn.i7baoz.blog.shiroweb.util.SystemMessages;
 import cn.i7baoz.blog.shiroweb.util.PasswordHelper;
 
 /** 
@@ -46,12 +46,12 @@ public class UserServiceImpl implements UserService {
 	private PasswordHelper passwordHelper;
 	
 	@Override
-	public UserBean createUser(String username,String password) throws Exception {
+	public UserBean createUser(String username,String password) throws TraditionException {
 		
 		UserBean oldUser = userDao.findByUsername(username);
 		
 		if ( null != oldUser ) {
-			throw new TraditionException(ExceptionMsg.SAME_USERNAME_EXCEPTION);
+			throw new TraditionException(SystemMessages.SAME_USERNAME_EXCEPTION);
 		}
 		
 		UserBean user = new UserBean();
@@ -64,37 +64,34 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserBean login(String username, String password) throws Exception {
+	public UserBean login(String username, String password) throws TraditionException {
 		
 		UserBean oldUser = userDao.findByUsername(username);
 		
 		if ( null == oldUser ) {
-			throw new TraditionException(ExceptionMsg.USER_IS_NOT_EXIST);
+			throw new TraditionException(SystemMessages.USER_IS_NOT_EXIST);
 		}
 		UsernamePasswordToken token = new UsernamePasswordToken(username,password);
 		
 		Subject subject = SecurityUtils.getSubject();
-		System.out.println("开始登录");
+//		System.out.println("开始登录");
 		
         try {  
             subject.login(token);  
-            System.out.println("登录成功");
         } catch (UnknownAccountException e) {  
-        	 System.out.println("登录失败");
-            throw new TraditionException(ExceptionMsg.USER_IS_NOT_EXIST);
-           
+        	//账号不存在
+            throw new TraditionException(SystemMessages.USER_IS_NOT_EXIST);
         } catch (IncorrectCredentialsException e) { 
-        	 System.out.println("登录失败");
-            throw new TraditionException(ExceptionMsg.USERNAME_OR_PASSWORD_IS_WRONG);
+        	//密码不正确
+            throw new TraditionException(SystemMessages.USERNAME_OR_PASSWORD_IS_WRONG);
         } catch (AuthenticationException e) {  
             //其他错误，比如锁定，如果想单独处理请单独catch处理  
-            System.out.println("登录失败");
-            e.printStackTrace();
+            throw new TraditionException(SystemMessages.UNKOWN_ERROR);
         } 
 		return null;
 	}
 	@Override
-	public void changePassword(String userId, String newPassword) {
+	public void changePassword(String userId, String newPassword) throws TraditionException{
 		UserBean user = userDao.findOne(userId);
 		user.setPassword(newPassword);
 		passwordHelper.encryptPassword(user);
@@ -102,35 +99,35 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void correlationRoles(String userId, String... roleIds) {
+	public void correlationRoles(String userId, String... roleIds) throws TraditionException{
 		userDao.correlationRoles(userId, roleIds);
 	}
 
 	@Override
-	public void uncorrelationRoles(String userId, String... roleIds) {
+	public void uncorrelationRoles(String userId, String... roleIds) throws TraditionException{
 		userDao.uncorrelationRoles(userId, roleIds);
 	}
 
 	@Override
-	public UserBean findByUsername(String username) {
+	public UserBean findByUsername(String username) throws TraditionException{
 
 		return userDao.findByUsername(username);
 	}
 
 	@Override
-	public List<String> findRoles(String username) {
+	public List<String> findRoles(String username) throws TraditionException{
 
 		return userDao.findRoles(username);
 	}
 
 	@Override
-	public List<String> findPermissions(String username) {
+	public List<String> findPermissions(String username) throws TraditionException{
 
 		return userDao.findPermissions(username);
 	}
 
 	@Override
-	public List<UserBean> listAllUsers() {
+	public List<UserBean> listAllUsers() throws TraditionException{
 		
 		return userDao.listAllUsers();
 	}

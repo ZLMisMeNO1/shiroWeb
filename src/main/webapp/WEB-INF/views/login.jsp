@@ -17,6 +17,7 @@ ${error}
 <form action="" method="post">
 	<input type="text" value="zhang" name="username">
 	<input type="password" value="123" name="password" >
+	<input type="text" value="true" name="remember">
 	<input type="submit" value="login" />
 </form>
 

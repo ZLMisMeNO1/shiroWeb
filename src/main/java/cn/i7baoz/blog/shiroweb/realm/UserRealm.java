@@ -12,6 +12,7 @@ import java.util.HashSet;
 
 import javax.annotation.Resource;
 
+
 //import org.apache.log4j.Logger;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -24,6 +25,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 
+import cn.i7baoz.blog.shiroweb.exception.TraditionException;
 import cn.i7baoz.blog.shiroweb.pojo.UserBean;
 import cn.i7baoz.blog.shiroweb.service.UserService;
 
@@ -49,8 +51,15 @@ public class UserRealm extends AuthorizingRealm{
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         String username = (String)principals.getPrimaryPrincipal();
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        authorizationInfo.setRoles(new HashSet<String>(userService.findRoles(username)));
-        authorizationInfo.setStringPermissions(new HashSet<String>(userService.findPermissions(username)));
+        
+        try {
+        	 authorizationInfo.setRoles(new HashSet<String>(userService.findRoles(username)));
+             authorizationInfo.setStringPermissions(new HashSet<String>(userService.findPermissions(username)));
+        } catch (Exception e) {
+        	e.printStackTrace();
+        }
+        
+       
         
         return authorizationInfo;
     }
@@ -60,7 +69,13 @@ public class UserRealm extends AuthorizingRealm{
 
         String username = (String)token.getPrincipal();
 
-        UserBean user = userService.findByUsername(username);
+        UserBean user = null;
+		try {
+			user = userService.findByUsername(username);
+		} catch (TraditionException e) {
+			
+			e.printStackTrace();
+		}
         
         if(user == null) {
             throw new UnknownAccountException();//没找到帐号

@@ -7,6 +7,9 @@
  */  
   
 package cn.i7baoz.blog.shiroweb.exception;  
+
+import cn.i7baoz.blog.shiroweb.util.SystemMessages;
+
 /** 
  * ClassName:SameUsernameException 
  * Function: TODO ADD FUNCTION. 
@@ -31,6 +34,9 @@ public class TraditionException extends Exception{
 
 	public TraditionException(String msg) {
 		this.message = msg;
+	}
+	public TraditionException (SystemMessages msg ) {
+		this.message = msg.getName();
 	}
 	@Override
 	public String getMessage() {

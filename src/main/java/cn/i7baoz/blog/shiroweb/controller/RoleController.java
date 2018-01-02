@@ -10,7 +10,6 @@ package cn.i7baoz.blog.shiroweb.controller;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.i7baoz.blog.shiroweb.exception.ExceptionMsg;
 import cn.i7baoz.blog.shiroweb.exception.TraditionException;
 import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
 import cn.i7baoz.blog.shiroweb.service.RoleService;
+import cn.i7baoz.blog.shiroweb.util.SystemMessages;
 
 /** 
  * ClassName:RoleController 
@@ -44,10 +43,10 @@ public class RoleController {
 	@RequiresRoles(value="admin,roleadmin")
 	public RoleBean create(
 			@RequestParam(required=true)String roleName
-			,String desc) throws Exception{
+			,String desc) throws TraditionException{
 		
 		if ( roleName.isEmpty() ) {
-			throw new TraditionException(ExceptionMsg.ROLE_NAME_IS_EMPTY);
+			throw new TraditionException(SystemMessages.ROLE_NAME_IS_EMPTY);
 		}
 		
 		Subject subject = SecurityUtils.getSubject();

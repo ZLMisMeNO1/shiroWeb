@@ -12,12 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.filter.AccessControlFilter;
-import org.apache.shiro.web.util.SavedRequest;
-import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * ClassName:LoginController Function: TODO ADD FUNCTION. Date: 2017年12月29日

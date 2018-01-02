@@ -18,8 +18,40 @@ package cn.i7baoz.blog.shiroweb.status;
  */
 public enum CurrentStatus {
 
-	CurrentStatus () {
-
+	NORMAL(0,"正常"),
+	
+	LOCKED(-1,"锁定"),
+	
+	DELETED(-2,"已删除");
+	
+	
+	
+	
+	
+	private Integer statusCode;
+	
+	private String message;
+	
+	CurrentStatus (Integer statusCode,String message) {
+		this.statusCode = statusCode;
+		this.message = message;
 	}
+
+	public Integer getStatusCode() {
+		return statusCode;
+	}
+
+	public void setStatusCode(Integer statusCode) {
+		this.statusCode = statusCode;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	
 }
  
