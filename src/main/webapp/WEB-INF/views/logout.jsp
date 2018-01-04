@@ -20,7 +20,7 @@
 	$(function(){
 		$("#loginout").click(function(){
 			$.ajax({
-				url: "loginout"
+				url: "logout"
 			});
 		});
 	})

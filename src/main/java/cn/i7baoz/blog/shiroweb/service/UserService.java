@@ -10,7 +10,8 @@ package cn.i7baoz.blog.shiroweb.service;
 
 import java.util.List;
 
-import cn.i7baoz.blog.shiroweb.exception.TraditionException;
+import org.apache.shiro.authc.AuthenticationException;
+
 import cn.i7baoz.blog.shiroweb.pojo.UserBean;
 
 /** 
@@ -28,22 +29,22 @@ public interface UserService {
      * 创建用户
      * @param user
      */
-    public UserBean createUser(String username,String password) throws TraditionException;
+    public UserBean createUser(String username,String password) throws AuthenticationException;
 
-    public UserBean login(String username,String password) throws TraditionException;
+    public UserBean login(String username,String password) throws AuthenticationException;
     /**
      * 修改密码
      * @param userId
      * @param newPassword
      */
-    public void changePassword(String userId, String newPassword) throws TraditionException;
+    public void changePassword(String userId, String newPassword) throws AuthenticationException;
 
     /**
      * 添加用户-角色关系
      * @param userId
      * @param roleIds
      */
-    public void correlationRoles(String userId, String... roleIds) throws TraditionException;
+    public void correlationRoles(String userId, String... roleIds) throws AuthenticationException;
 
 
     /**
@@ -51,30 +52,30 @@ public interface UserService {
      * @param userId
      * @param roleIds
      */
-    public void uncorrelationRoles(String userId, String... roleIds) throws TraditionException;
+    public void uncorrelationRoles(String userId, String... roleIds) throws AuthenticationException;
 
     /**
      * 根据用户名查找用户
      * @param username
      * @return
      */
-    public UserBean findByUsername(String username) throws TraditionException;
+    public UserBean findByUsername(String username) throws AuthenticationException;
 
     /**
      * 根据用户名查找其角色
      * @param username
      * @return
      */
-    public List<String> findRoles(String username) throws TraditionException;
+    public List<String> findRoles(String username) throws AuthenticationException;
 
     /**
      * 根据用户名查找其权限
      * @param username
      * @return
      */
-    public List<String> findPermissions(String username) throws TraditionException;
+    public List<String> findPermissions(String username) throws AuthenticationException;
     
     
-    public List<UserBean> listAllUsers() throws TraditionException;
+    public List<UserBean> listAllUsers() throws AuthenticationException;
 }
  

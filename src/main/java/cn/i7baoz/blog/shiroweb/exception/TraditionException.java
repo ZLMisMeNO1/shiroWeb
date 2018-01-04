@@ -1,49 +1,72 @@
 /** 
  * Project Name:shiroWeb 
- * File Name:SameUsernameException.java 
- * Package Name:cn.i7baoz.blog.shiroweb 
- * Date:2017年12月28日下午2:39:33 
+ * File Name:UserException.java 
+ * Package Name:cn.i7baoz.blog.shiroweb.exception 
+ * Date:2018年1月3日上午10:12:49 
  * 
  */  
   
 package cn.i7baoz.blog.shiroweb.exception;  
 
+import org.apache.shiro.ShiroException;
+import org.apache.shiro.authc.AuthenticationException;
+
 import cn.i7baoz.blog.shiroweb.util.SystemMessages;
 
 /** 
- * ClassName:SameUsernameException 
+ * ClassName:UserException 用户方面的异常
  * Function: TODO ADD FUNCTION. 
- * Date:     2017年12月28日 下午2:39:33 
+ * Date:     2018年1月3日 上午10:12:49 
  * @author   baoqi.zhang 
  * @version   
  * @since    JDK 1.7 
  * @see       
  */
-public class TraditionException extends Exception{
+public class TraditionException extends ShiroException{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	private String message ;
 	
-	public TraditionException () {
-		this.message = "出错了~！";
+	private SystemMessages systemMessages;
+	
+	public TraditionException() {
+		super();
+		this.systemMessages = SystemMessages.UNKOWN_ERROR;
 	}
+	public TraditionException(SystemMessages systemMessages) {
+		super();
+		this.systemMessages = systemMessages;
+	}
+	
 
-	public TraditionException(String msg) {
-		this.message = msg;
-	}
-	public TraditionException (SystemMessages msg ) {
-		this.message = msg.getName();
-	}
+    /**
+     * Constructs a new AuthenticationException.
+     *
+     * @param cause the underlying Throwable that caused this exception to be thrown.
+     */
+    public TraditionException(Throwable cause) {
+        super(cause);
+    }
+
+    /**
+     * Constructs a new AuthenticationException.
+     *
+     * @param message the reason for the exception
+     * @param cause   the underlying Throwable that caused this exception to be thrown.
+     */
+    public TraditionException(String message, Throwable cause) {
+        super(message, cause);
+    }
+	
 	@Override
 	public String getMessage() {
-		
-		return this.message;
+		return this.systemMessages.getMessage();
 	}
 	
-	
+	public SystemMessages getSystemMessages() {
+		return systemMessages;
+	}
 }
  

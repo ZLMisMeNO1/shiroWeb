@@ -76,10 +76,12 @@
     </bean>
 
     <!-- 基于Form表单的身份验证过滤器 -->
-    <bean id="formAuthenticationFilter" class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter">
+   <!--  <bean id="formAuthenticationFilter" class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter"> -->
+    <bean id="formAuthenticationFilter" class="cn.i7baoz.blog.shiroweb.credentials.LoginFormAuthenticationFilter">
         <property name="usernameParam" value="username"/>
         <property name="passwordParam" value="password"/>
         <property name="rememberMeParam" value="remember"/>
+        <property name="failureKeyAttribute" value="shiroLoginFailure"/>
         <property name="loginUrl" value="/login"/>
     </bean>
 	<bean id="logoutFilter" class="org.apache.shiro.web.filter.authc.LogoutFilter">

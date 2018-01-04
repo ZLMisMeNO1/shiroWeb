@@ -12,8 +12,6 @@ import java.util.HashSet;
 
 import javax.annotation.Resource;
 
-
-//import org.apache.log4j.Logger;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -25,9 +23,10 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 
-import cn.i7baoz.blog.shiroweb.exception.TraditionException;
 import cn.i7baoz.blog.shiroweb.pojo.UserBean;
 import cn.i7baoz.blog.shiroweb.service.UserService;
+import cn.i7baoz.blog.shiroweb.status.CurrentStatus;
+import cn.i7baoz.blog.shiroweb.util.SystemMessages;
 
 /** 
  * ClassName:UserRealm 
@@ -38,14 +37,11 @@ import cn.i7baoz.blog.shiroweb.service.UserService;
  * @since    JDK 1.7 
  * @see       
  */
-//@Component
-//@Repository
 public class UserRealm extends AuthorizingRealm{
 	
-//	private static Logger log = Logger.getLogger(UserRealm.class);
 	
 	@Resource
-	private UserService userService ;//= new UserServiceImpl();
+	private UserService userService ;
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
@@ -55,36 +51,33 @@ public class UserRealm extends AuthorizingRealm{
         try {
         	 authorizationInfo.setRoles(new HashSet<String>(userService.findRoles(username)));
              authorizationInfo.setStringPermissions(new HashSet<String>(userService.findPermissions(username)));
-        } catch (Exception e) {
-        	e.printStackTrace();
+        } catch (AuthenticationException e) {
+        	throw e;
         }
-        
        
-        
         return authorizationInfo;
     }
 
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+    public AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 
         String username = (String)token.getPrincipal();
 
         UserBean user = null;
 		try {
 			user = userService.findByUsername(username);
-		} catch (TraditionException e) {
-			
-			e.printStackTrace();
+		} catch (AuthenticationException e) {
+			throw new AuthenticationException(SystemMessages.UNKOWN_ERROR.getMessage());
 		}
         
         if(user == null) {
-            throw new UnknownAccountException();//没找到帐号
+            throw new UnknownAccountException(SystemMessages.USER_IS_NOT_EXIST.getMessage());//没找到帐号
         }
 
-//        if(Boolean.TRUE.equals(user.getLocked())) {
-//            throw new LockedAccountException(); //帐号锁定
-//        }
-        //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
+        if(CurrentStatus.LOCKED.getStatusCode().equals(user.getCurrentStatus())) {
+            throw new AuthenticationException(SystemMessages.USER_IS_LOCKED.getMessage()); //帐号锁定
+        }
+        //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 user.getUsername(), //用户名
                 user.getPassword(), //密码

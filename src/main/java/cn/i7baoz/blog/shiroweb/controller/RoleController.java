@@ -9,6 +9,7 @@
 package cn.i7baoz.blog.shiroweb.controller;  
 
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.i7baoz.blog.shiroweb.exception.TraditionException;
 import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
 import cn.i7baoz.blog.shiroweb.service.RoleService;
 import cn.i7baoz.blog.shiroweb.util.SystemMessages;
@@ -41,22 +41,23 @@ public class RoleController {
 	@RequestMapping("create")
 	@ResponseBody
 	@RequiresRoles(value="admin,roleadmin")
+
 	public RoleBean create(
 			@RequestParam(required=true)String roleName
-			,String desc) throws TraditionException{
-		
-		if ( roleName.isEmpty() ) {
-			throw new TraditionException(SystemMessages.ROLE_NAME_IS_EMPTY);
-		}
+			,String desc) throws AuthenticationException{
 		
 		Subject subject = SecurityUtils.getSubject();
-		System.out.println(subject.getPrincipal());
     	RoleBean bean = new RoleBean();
     	bean.setRoleName(roleName);
     	bean.setDescMsg(desc);
     	bean.setCreateUsername(String.valueOf(subject.getPrincipal()));
     	roleService.createRole(bean);
     	return bean;
+	}
+	@RequestMapping("test")
+	@ResponseBody
+	public void test ()  throws AuthenticationException  {
+		throw new AuthenticationException(SystemMessages.RETRY_TOO_MANY_TIMES.getMessage());
 	}
 }
  

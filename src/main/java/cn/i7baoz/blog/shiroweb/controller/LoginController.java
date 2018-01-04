@@ -11,9 +11,12 @@ package cn.i7baoz.blog.shiroweb.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import cn.i7baoz.blog.shiroweb.annotation.OperationLog;
 
 /**
  * ClassName:LoginController Function: TODO ADD FUNCTION. Date: 2017年12月29日
@@ -47,52 +50,30 @@ public class LoginController {
 	 * @return
 	 * @since JDK 1.7
 	 */
+	@OperationLog
 	@RequestMapping("login")
-	// @ResponseBody
-	public String login(HttpServletRequest request) throws Exception {
-//		SavedRequest savedRequest = WebUtils.getAndClearSavedRequest(request);
-//		
-//		//上一个请求页面
-//		String successUrl = LOGIN_PAGE;
-//		
-//		if (savedRequest != null
-//				&& savedRequest.getMethod().equalsIgnoreCase(
-//						AccessControlFilter.GET_METHOD)) {
-//			successUrl = savedRequest.getRequestUrl();
-//		}
-//		System.out.println(successUrl);
-//		//如果当前用户登录成功
-//		if ( SecurityUtils.getSubject().isAuthenticated() ) {
-//			if ( LOGIN_APGE.equals(successUrl) ) {
-//				System.out.println("tiaozhuan");
-//				//如果上一个页面是登录页面，也就是注销后再登录的情况
-//				return INDEX_PAGE;
-//			} 
-//		}
-		
-//		System.out.println(successUrl);
+	public String login(HttpServletRequest request) throws AuthenticationException {
 		return LOGIN_PAGE;
 	}
 
 	@RequestMapping("logout")
-	public String loginout() {
+	public String loginout() throws AuthenticationException  {
 		// 注销用户
-//		SecurityUtils.getSubject().getSession().stop();
+		SecurityUtils.getSubject().logout();
 		// 转到注销页面
 		return LOGOUT_PAGE;
 	}
 
 	@RequestMapping("unauthorized")
-	public String unauthorized() {
+	public String unauthorized() throws AuthenticationException  {
 		// 注销用户
 		SecurityUtils.getSubject().getSession().stop();
 		// 转到登录页面
-		System.out.println(UNAUTHORIZED_PAGE);
 		return UNAUTHORIZED_PAGE;
 	}
 	
 	@RequestMapping("index") 
-	public String index() {
+	public String index()  throws AuthenticationException {
 		Subject  currentUser = SecurityUtils.getSubject();
 		currentUser.getSession().setAttribute("username", currentUser.getPrincipal());
 		return INDEX_PAGE;

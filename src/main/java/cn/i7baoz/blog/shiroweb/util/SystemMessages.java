@@ -28,16 +28,24 @@ public enum SystemMessages {
 
 	, ROLE_NAME_IS_EMPTY("角色名称不能为空") 
 	
-	, UNKOWN_ERROR("未知错误！");
-	private String name;
+	, USER_IS_LOCKED("用户被锁定")
 	
-	private SystemMessages(String abc) {
-		this.name = abc;
+	, RETRY_TOO_MANY_TIMES("频率过于频繁，1分钟后重试！")
+	
+	, UNKOWN_ERROR("未知错误！");
+	
+	
+	private String message;
+	
+	
+	private SystemMessages(String message) {
+		this.message = message;
 	}
 
-	public String getName() {
-		return name;
+	public String getMessage() {
+		return message;
 	}
+	
 
 	
 	
