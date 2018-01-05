@@ -15,8 +15,8 @@
 
 
 <!-- bootstrap 3.3.4 -->
-<script type="text/javascript" src="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.css"></script>
-<script type="text/javascript" src="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap-theme.min.css"></script>
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.css">
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap-theme.min.css">
 <script type="text/javascript" src="http://apps.bdimg.com/libs/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
 

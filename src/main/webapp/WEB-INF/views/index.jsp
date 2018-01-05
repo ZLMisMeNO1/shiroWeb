@@ -14,17 +14,24 @@
 <div class="container">
 	<div class="row clearfix">
 		<div class="col-md-12 column">
-			<div class="tabbable">
-				<ul class="nav ">
-					<li class="active">
-						 <a href="#main" >首页</a>
-					</li>
-					<shiro:hasRole name="administrator">
+			<nav class="navbar navbar-default navbar-inverse" role="navigation">
+				<div class="navbar-header">
+					 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="#">首页</a>
+				</div>
+				
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<shiro:hasRole name="administrator">
+							<li>
+								 <a href="javascript:;" data-url="role/roleSetting" class="menu">角色管理</a>
+							</li>
+						</shiro:hasRole>
 						<li>
-							 <a href="javascript:;" data-url="role/roleSetting" class="menu">角色管理</a>
+							 <a href="#">Link</a>
 						</li>
-					</shiro:hasRole>
-					<li class="dropdown pull-right">
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
 							 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><shiro:principal></shiro:principal><strong class="caret"></strong></a>
 							<ul class="dropdown-menu">
 								<li>
@@ -38,13 +45,9 @@
 									</shiro:hasRole>
 								</li>
 								<li class="divider">
+								</li>
 								<li>
 									 <a href="#">关于我</a>
-								</li>
-								<li class="divider">
-								</li>
-								<li>
-									 <a href="#">Separated link</a>
 								</li>
 								<li class="divider">
 								</li>
@@ -53,13 +56,14 @@
 								</li>
 							</ul>
 						</li>
-				</ul>
-				<div class="tab-content">
-					<div class="" >
-						<iframe id="main" src="" style="width:100%;height:800px;border:none"> </iframe>
-					</div>
+					</ul>
 				</div>
-			</div>
+				
+			</nav>
+			<iframe id="main" src="" style="width:100%;height:800px;border:none"> </iframe>
+		</div>
+		<div class="col-md-12 column">
+			<!-- <iframe id="main" src="" style="width:100%;height:800px;border:none"> </iframe> -->
 		</div>
 	</div>
 </div>
