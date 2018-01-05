@@ -8,6 +8,8 @@
 
 package cn.i7baoz.blog.shiroweb.dao;
 
+import java.util.List;
+
 import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
 
 /**
@@ -23,6 +25,8 @@ public interface RoleDao {
 	//添加角色
 	public RoleBean createRole(RoleBean role);
 
+	public List<RoleBean> listAllRoles();
+	
 	//删除角色
 	public void deleteRole(String roleId);
 

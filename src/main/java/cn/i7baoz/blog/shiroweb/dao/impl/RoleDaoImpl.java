@@ -92,5 +92,13 @@ public class RoleDaoImpl implements RoleDao {
 		}
 		return list.get(0);
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<RoleBean> listAllRoles() {
+		Session session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(RoleBean.class);
+		return criteria.list();
+	}
 }
  

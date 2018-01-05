@@ -56,6 +56,17 @@ public class PermissionBean implements Serializable{
 	//描述
 	private String descMsg;
 
+	//权限类型  0：视图类型  1：接口类型
+	private Integer permissionType = 0;
+	
+	public Integer getPermissionType() {
+		return permissionType;
+	}
+
+	public void setPermissionType(Integer permissionType) {
+		this.permissionType = permissionType;
+	}
+
 	public String getPermsId() {
 		return permsId;
 	}

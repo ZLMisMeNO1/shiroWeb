@@ -22,10 +22,7 @@ public enum CurrentStatus {
 	
 	LOCKED(-1,"锁定"),
 	
-	DELETED(-2,"已删除")
-	
-	,NOT_HAS_ROLE_OR_PERMISSION(-3,"无权限");
-	
+	DELETED(-2,"已删除");
 	
 	private Integer statusCode;
 	

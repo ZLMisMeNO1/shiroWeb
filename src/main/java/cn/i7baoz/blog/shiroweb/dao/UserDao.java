@@ -10,6 +10,8 @@ package cn.i7baoz.blog.shiroweb.dao;
 
 import java.util.List;
 
+import cn.i7baoz.blog.shiroweb.pojo.PermissionBean;
+import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
 import cn.i7baoz.blog.shiroweb.pojo.UserBean;
 
 /** 
@@ -45,8 +47,13 @@ public interface UserDao {
     //获取角色
     List<String> findRoles(String username);
 
+    //获取角色
+    List<RoleBean> findRoleByUsername(String username);
+    
     //获取权限
     List<String> findPermissions(String username);
+    //获取权限
+    List<PermissionBean> findPermissionsByUsername(String username);
     
     List<UserBean> listAllUsers();
 }

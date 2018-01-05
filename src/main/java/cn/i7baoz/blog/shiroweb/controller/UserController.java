@@ -13,13 +13,20 @@ import java.util.List;
 
 
 
+
+
+
+
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.i7baoz.blog.shiroweb.pojo.PermissionBean;
 import cn.i7baoz.blog.shiroweb.pojo.UserBean;
 import cn.i7baoz.blog.shiroweb.service.UserService;
 import cn.i7baoz.blog.shiroweb.util.SystemMessages;
@@ -48,7 +55,7 @@ public class UserController {
 	 * @return 
 	 * @since JDK 1.7
 	 */
-	@RequestMapping("list")
+	@RequestMapping("listUser")
 	@ResponseBody
 	@RequiresRoles(value="administrator")
 	public List<UserBean> listAllUsers() throws AuthenticationException{
@@ -65,7 +72,22 @@ public class UserController {
 		}
 		return userService.createUser(username,password);
 	}
-
-
+	//管理员可以查看任何人的权限
+	@RequestMapping("findPermissionsByUsername")
+	@ResponseBody
+	public List<PermissionBean> findPermissionsByUsername(String username) throws AuthenticationException{
+		Subject subject = SecurityUtils.getSubject();
+		if ( subject.hasRole("administrator") ) {
+			if( null == username || username.isEmpty() ) {
+				username = (String) SecurityUtils.getSubject().getPrincipal();
+			}
+			return userService.findPermissionsByUsername(username);
+		}
+		username = (String) SecurityUtils.getSubject().getPrincipal();
+		return userService.findPermissionsByUsername(username);
+	}
+	
+	
+	
 }
  

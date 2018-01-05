@@ -100,12 +100,13 @@
         </property>
         <property name="filterChainDefinitions">
             <value>
-                /index.jsp = anon
+                /index.jsp = authc
                 /unauthorized.jsp = anon
                 /login.jsp = anon
                 /user/logout = logout
                 /images/** = anon
                 /js/** = anon
+                /Plugins/** = anon
                 /styles/** = anon
                 /** = authc
             </value>

@@ -8,6 +8,8 @@
   
 package cn.i7baoz.blog.shiroweb.controller;  
 
+import java.util.List;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -20,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
 import cn.i7baoz.blog.shiroweb.service.RoleService;
-import cn.i7baoz.blog.shiroweb.util.SystemMessages;
+import cn.i7baoz.blog.shiroweb.service.UserService;
 
 /** 
  * ClassName:RoleController 
@@ -38,10 +40,43 @@ public class RoleController {
 	@Autowired
 	private RoleService roleService;
 	
+	@Autowired
+	private UserService userService;
+	
+	//角色设置视图
+	@RequestMapping("roleSetting")
+	@RequiresRoles("administrator")
+	public String roleSetting() {
+		return "role/roleSetting";
+	}
+	
+	//管理员可以查看任何人的角色
+	@RequestMapping("findRoleByUsername")
+	@ResponseBody
+	public List<RoleBean> findRoleByUsername(String username) throws AuthenticationException{
+		Subject subject = SecurityUtils.getSubject();
+		if ( subject.hasRole("administrator") ) {
+			if( null == username || username.isEmpty() ) {
+				username = (String) SecurityUtils.getSubject().getPrincipal();
+			}
+			return userService.findRoleByUsername(username);
+		}
+		username = (String) SecurityUtils.getSubject().getPrincipal();
+		return userService.findRoleByUsername(username);
+	}
+
+	@RequestMapping("listAllRoles")
+	@RequiresRoles(value="administrator")
+	@ResponseBody
+	public List<RoleBean> listAllRoles() {
+		
+		return roleService.listAllRoles();
+	}
+	
+	//创建角色
 	@RequestMapping("create")
 	@ResponseBody
-	@RequiresRoles(value="admin,roleadmin")
-
+	@RequiresRoles(value="administrator,roleadmin")
 	public RoleBean create(
 			@RequestParam(required=true)String roleName
 			,String desc) throws AuthenticationException{
@@ -53,11 +88,6 @@ public class RoleController {
     	bean.setCreateUsername(String.valueOf(subject.getPrincipal()));
     	roleService.createRole(bean);
     	return bean;
-	}
-	@RequestMapping("test")
-	@ResponseBody
-	public void test ()  throws AuthenticationException  {
-		throw new AuthenticationException(SystemMessages.RETRY_TOO_MANY_TIMES.getMessage());
 	}
 }
  

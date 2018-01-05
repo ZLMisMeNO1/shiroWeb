@@ -32,6 +32,8 @@ public enum SystemMessages {
 	
 	, RETRY_TOO_MANY_TIMES("频率过于频繁，1分钟后重试！")
 	
+	, USER_HAS_NO_PERMISSION("无权限")
+	
 	, UNKOWN_ERROR("未知错误！");
 	
 	

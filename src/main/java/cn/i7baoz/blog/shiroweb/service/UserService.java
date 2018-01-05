@@ -12,6 +12,8 @@ import java.util.List;
 
 import org.apache.shiro.authc.AuthenticationException;
 
+import cn.i7baoz.blog.shiroweb.pojo.PermissionBean;
+import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
 import cn.i7baoz.blog.shiroweb.pojo.UserBean;
 
 /** 
@@ -31,7 +33,6 @@ public interface UserService {
      */
     public UserBean createUser(String username,String password) throws AuthenticationException;
 
-    public UserBean login(String username,String password) throws AuthenticationException;
     /**
      * 修改密码
      * @param userId
@@ -77,5 +78,11 @@ public interface UserService {
     
     
     public List<UserBean> listAllUsers() throws AuthenticationException;
+    
+    //获取权限
+    List<PermissionBean> findPermissionsByUsername(String username);
+    
+    //获取角色
+    List<RoleBean> findRoleByUsername(String username);
 }
  

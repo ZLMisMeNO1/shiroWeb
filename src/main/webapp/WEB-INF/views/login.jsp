@@ -14,8 +14,8 @@
 <body>
 ${shiroLoginFailure }
 <form action="" method="post">
-	<input type="text" value="zhang" name="username">
-	<input type="password" value="1232" name="password" >
+	<input type="text" value="admin" name="username">
+	<input type="text" value="123" name="password" >
 	<input type="text" value="true" name="remember">
 	<input type="submit" value="login" />
 </form>

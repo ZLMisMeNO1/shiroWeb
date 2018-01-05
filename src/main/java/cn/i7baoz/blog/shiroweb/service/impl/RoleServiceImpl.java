@@ -8,6 +8,8 @@
   
 package cn.i7baoz.blog.shiroweb.service.impl;  
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,6 +51,12 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	public void uncorrelationPermissions(String roleId, String... permissionIds) {
 		roleDao.uncorrelationPermissions(roleId, permissionIds);
+	}
+
+	@Override
+	public List<RoleBean> listAllRoles() {
+		
+		return roleDao.listAllRoles();
 	}
 
 }

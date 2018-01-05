@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import cn.i7baoz.blog.shiroweb.status.CurrentStatus;
 import cn.i7baoz.blog.shiroweb.util.ResultMap;
+import cn.i7baoz.blog.shiroweb.util.SystemMessages;
 
 /**
  * <p>User: Zhang Kaitao
@@ -37,7 +37,7 @@ public class ControllerExceptionHandler {
     @ResponseBody
     public ResultMap<String> noRoleOrPermission(NativeWebRequest request, UnauthorizedException e) {
     	logger.info("current user do not has role or permission");
-    	return new ResultMap<String>(CurrentStatus.NOT_HAS_ROLE_OR_PERMISSION);
+    	return new ResultMap<String>(SystemMessages.USER_HAS_NO_PERMISSION);
     }
     
 

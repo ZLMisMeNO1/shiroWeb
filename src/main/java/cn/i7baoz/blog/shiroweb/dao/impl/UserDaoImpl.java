@@ -21,6 +21,9 @@ import javax.annotation.Resource;
 
 
 
+
+
+
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -29,6 +32,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import cn.i7baoz.blog.shiroweb.dao.UserDao;
+import cn.i7baoz.blog.shiroweb.pojo.PermissionBean;
+import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
 import cn.i7baoz.blog.shiroweb.pojo.UserBean;
 import cn.i7baoz.blog.shiroweb.pojo.UserRolesBean;
 
@@ -130,6 +135,18 @@ public class UserDaoImpl implements UserDao{
 		query.setString("username", username);
 		return query.list();
 	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<RoleBean> findRoleByUsername(String username) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(" select r from UserBean u,RoleBean r,UserRolesBean ur  ");
+		sb.append(" where u.username = :username ");
+		sb.append(" and u.userId = ur.userId ");
+		sb.append(" and ur.roleId = r.roleId ");
+		Query query = sessionFactory.getCurrentSession().createQuery(sb.toString());
+		query.setString("username", username);
+		return query.list();
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -150,6 +167,24 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public List<UserBean> listAllUsers() {
 		return sessionFactory.getCurrentSession().createCriteria(UserBean.class).list();
+	}
+
+	
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PermissionBean> findPermissionsByUsername(String username) {
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(" select p from UserBean u,RoleBean r,UserRolesBean ur,PermissionBean p,RolePermsBean rp  ");
+		sb.append(" where u.username = :username ");
+		sb.append(" and u.userId = ur.userId ");
+		sb.append(" and ur.roleId = r.roleId ");
+		sb.append(" and ur.roleId = rp.roleId ");
+		sb.append(" and rp.permsId = p.permsId ");
+		Query query = sessionFactory.getCurrentSession().createQuery(sb.toString());
+		query.setString("username", username);
+		return query.list();
 	}
 }
  

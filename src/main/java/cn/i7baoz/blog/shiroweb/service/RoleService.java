@@ -8,6 +8,8 @@
 
 package cn.i7baoz.blog.shiroweb.service;
 
+import java.util.List;
+
 import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
 
 /**
@@ -21,8 +23,13 @@ import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
  */
 public interface RoleService {
 	
+	//创建角色
 	public RoleBean createRole(RoleBean role);
 
+	//列出所有角色
+	public List<RoleBean> listAllRoles();
+	
+	//删除角色
 	public void deleteRole(String roleId);
 
 	/**

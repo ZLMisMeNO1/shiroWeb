@@ -50,6 +50,11 @@ public class ResultMap<T> implements Serializable{
 		this.message = currentStatus.getMessage();
 		this.success = false;
 	}
+	public ResultMap(SystemMessages systemMessages) {
+		this.status = 500;
+		this.message = systemMessages.getMessage();
+		this.success = false;
+	}
 	public Integer getStatus() {
 		return status;
 	}
