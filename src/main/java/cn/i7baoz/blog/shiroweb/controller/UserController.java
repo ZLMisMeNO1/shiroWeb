@@ -87,7 +87,10 @@ public class UserController {
 		return userService.findPermissionsByUsername(username);
 	}
 	
-	
+	@RequestMapping("aboutme")
+	public String aboutme() {
+		return "aboutme";
+	}
 	
 }
  

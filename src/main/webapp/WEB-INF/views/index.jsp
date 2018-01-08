@@ -47,7 +47,7 @@
 								<li class="divider">
 								</li>
 								<li>
-									 <a href="#">关于我</a>
+									 <a href="javascript:;" class="menu" data-url="user/aboutme">关于我</a>
 								</li>
 								<li class="divider">
 								</li>

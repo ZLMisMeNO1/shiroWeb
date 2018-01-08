@@ -24,4 +24,19 @@ function executeAjax(url, setting, done, fail, always) {
 	})
 
 }
-
+function initDataGrid(id, set) {
+	/* 初始化datagrid */
+	var optionSet = {
+		striped : true,
+		fitColumns : true,
+		rownumbers : true,
+		singleSelect: true,
+		loadMsg : '加载中...',
+		pagination : false,
+		remoteSort : false,
+//		scrollbarSize : 6,
+		fit : true
+	}
+	var option = $.extend({}, optionSet, set);
+	$(id).datagrid(option);
+}

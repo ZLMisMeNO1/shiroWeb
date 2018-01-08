@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
 import cn.i7baoz.blog.shiroweb.service.RoleService;
 import cn.i7baoz.blog.shiroweb.service.UserService;
+import cn.i7baoz.blog.shiroweb.util.ResultMap;
 
 /** 
  * ClassName:RoleController 
@@ -49,7 +51,11 @@ public class RoleController {
 	public String roleSetting() {
 		return "role/roleSetting";
 	}
-	
+	@RequestMapping("addRoleView")
+	@RequiresRoles("administrator")
+	public String addRoleView() {
+		return "role/addRole";
+	}
 	//管理员可以查看任何人的角色
 	@RequestMapping("findRoleByUsername")
 	@ResponseBody
@@ -76,10 +82,11 @@ public class RoleController {
 	//创建角色
 	@RequestMapping("create")
 	@ResponseBody
-	@RequiresRoles(value="administrator,roleadmin")
-	public RoleBean create(
+	@RequiresRoles(value={"administrator","roleadmin"},logical=Logical.OR)
+	public ResultMap<RoleBean> create(
 			@RequestParam(required=true)String roleName
 			,String desc) throws AuthenticationException{
+		ResultMap<RoleBean> resultMap = new ResultMap<RoleBean>();
 		
 		Subject subject = SecurityUtils.getSubject();
     	RoleBean bean = new RoleBean();
@@ -87,7 +94,10 @@ public class RoleController {
     	bean.setDescMsg(desc);
     	bean.setCreateUsername(String.valueOf(subject.getPrincipal()));
     	roleService.createRole(bean);
-    	return bean;
+    	
+    	resultMap.setSuccess(true);
+    	resultMap.setData(bean);
+    	return resultMap;
 	}
 }
  
