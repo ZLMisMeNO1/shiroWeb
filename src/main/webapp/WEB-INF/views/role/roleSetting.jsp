@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" 
     pageEncoding="UTF-8"%>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,8 +20,12 @@
 <!-- <div class="container" style="width:100%;height:700px;">
 	<table id="roleList" style="width:100%;height:700px;"></table>
 </div> -->
-
-<div class="" style="width:100%;height:100%;">
+<shiro:hasAnyRoles name="administrator,roleadmin">
+	<div class="col-md-2 column pull-left">
+		 <button type="button" class="btn btn-block btn-default btn-info" id="createUser">创建新角色</button>
+	</div>
+</shiro:hasAnyRoles>
+<div  style="width:100%;height:90%;">
 	<table id="roleList" style="width:100%;height:100%;"></table>
 </div>
 </body>
