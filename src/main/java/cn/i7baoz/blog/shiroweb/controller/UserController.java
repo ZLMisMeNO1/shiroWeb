@@ -10,22 +10,15 @@ package cn.i7baoz.blog.shiroweb.controller;
 
 import java.util.List;
 
-
-
-
-
-
-
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.i7baoz.blog.shiroweb.annotation.UrlPermissionComponent;
 import cn.i7baoz.blog.shiroweb.pojo.PermissionBean;
 import cn.i7baoz.blog.shiroweb.pojo.UserBean;
 import cn.i7baoz.blog.shiroweb.service.UserService;
@@ -55,16 +48,16 @@ public class UserController {
 	 * @return 
 	 * @since JDK 1.7
 	 */
+	@UrlPermissionComponent(url="user/listUser",desc="查看所有用户",isView=false)
 	@RequestMapping("listUser")
 	@ResponseBody
-	@RequiresRoles(value="administrator")
 	public List<UserBean> listAllUsers() throws AuthenticationException{
 		return userService.listAllUsers();
 	}
 	
 	@RequestMapping("create")
 	@ResponseBody
-	@RequiresRoles(value="administrator")
+	@UrlPermissionComponent(url="user/create",desc="创建用户",isView=false)
 	public UserBean createUser (String username,String password) throws AuthenticationException{
 		
 		if ( username.trim().isEmpty() || password.trim().isEmpty() ) {
@@ -75,6 +68,7 @@ public class UserController {
 	//管理员可以查看任何人的权限
 	@RequestMapping("findPermissionsByUsername")
 	@ResponseBody
+	@UrlPermissionComponent(url="user/findPermissionsByUsername",desc="查看用户权限",isView=false)
 	public List<PermissionBean> findPermissionsByUsername(String username) throws AuthenticationException{
 		Subject subject = SecurityUtils.getSubject();
 		if ( subject.hasRole("administrator") ) {
@@ -88,6 +82,7 @@ public class UserController {
 	}
 	
 	@RequestMapping("aboutme")
+	@UrlPermissionComponent(url="user/aboutme",desc="关于我",isView=false)
 	public String aboutme() {
 		return "aboutme";
 	}

@@ -15,8 +15,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import cn.i7baoz.blog.shiroweb.annotation.OperationLog;
+import cn.i7baoz.blog.shiroweb.annotation.UrlPermissionComponent;
 
 /**
  * ClassName:LoginController Function: TODO ADD FUNCTION. Date: 2017年12月29日
@@ -35,8 +34,6 @@ public class LoginController {
 	//注销页面
 	private static String LOGOUT_PAGE = "login";
 
-	// 无权限页面
-	private static String UNAUTHORIZED_PAGE = "unauthorized";
 
 	// 主页面
 	private static String INDEX_PAGE = "index";
@@ -50,12 +47,10 @@ public class LoginController {
 	 * @return
 	 * @since JDK 1.7
 	 */
-	@OperationLog
 	@RequestMapping("login")
 	public String login(HttpServletRequest request) throws AuthenticationException {
 		return LOGIN_PAGE;
 	}
-
 	@RequestMapping("logout")
 	public String loginout() throws AuthenticationException  {
 		// 注销用户
@@ -63,15 +58,8 @@ public class LoginController {
 		// 转到注销页面
 		return LOGOUT_PAGE;
 	}
-
-	@RequestMapping("unauthorized")
-	public String unauthorized() throws AuthenticationException  {
-		// 注销用户
-		SecurityUtils.getSubject().getSession().stop();
-		// 转到登录页面
-		return UNAUTHORIZED_PAGE;
-	}
 	
+	@UrlPermissionComponent(url="/index",desc="主页",isView=true)
 	@RequestMapping("index") 
 	public String index()  throws AuthenticationException {
 		Subject  currentUser = SecurityUtils.getSubject();

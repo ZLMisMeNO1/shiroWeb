@@ -17,6 +17,7 @@
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
 	</context:component-scan>
+	<bean class="cn.i7baoz.blog.shiroweb.annotation.UrlPermissionComponentHandler"></bean> 
 	<!-- HandlerMapping -->
 	<mvc:annotation-driven>  
         <mvc:message-converters>  
@@ -25,7 +26,6 @@
         </mvc:message-converters> 
 	</mvc:annotation-driven> 
 	<aop:aspectj-autoproxy/>
-	 <!-- <aop:config proxy-target-class="true"></aop:config> -->
     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
         <property name="securityManager" ref="securityManager"/>
     </bean>

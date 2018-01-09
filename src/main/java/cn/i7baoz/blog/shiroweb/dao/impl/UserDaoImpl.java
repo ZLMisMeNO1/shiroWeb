@@ -11,19 +11,6 @@ package cn.i7baoz.blog.shiroweb.dao.impl;
 import java.util.List;
 
 import javax.annotation.Resource;
-
-
-
-
-
-
-
-
-
-
-
-
-
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.NativeWebRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 import cn.i7baoz.blog.shiroweb.util.ResultMap;
 import cn.i7baoz.blog.shiroweb.util.SystemMessages;
@@ -26,10 +25,9 @@ public class ControllerExceptionHandler {
 
 	@ExceptionHandler({AuthenticationException.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ModelAndView processUnauthenticatedException(NativeWebRequest request, AuthenticationException e) {
-    	logger.info("catch exception");
-    	logger.info(e.getMessage());
-    	return null;
+    @ResponseBody
+    public ResultMap<String> processUnauthenticatedException(NativeWebRequest request, AuthenticationException e) {
+    	return new ResultMap<String>(SystemMessages.USER_HAS_NO_PERMISSION);
     }
     
     @ExceptionHandler({UnauthorizedException.class})

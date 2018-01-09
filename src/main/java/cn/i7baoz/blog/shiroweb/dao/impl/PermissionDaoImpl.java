@@ -8,10 +8,14 @@
   
 package cn.i7baoz.blog.shiroweb.dao.impl;  
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import cn.i7baoz.blog.shiroweb.dao.PermissionDao;
@@ -34,11 +38,27 @@ public class PermissionDaoImpl implements PermissionDao {
 	
 	@Override
 	public PermissionBean createPermission(PermissionBean permission) {
-
-		sessionFactory.getCurrentSession().save(permission);
-		return permission;
+		PermissionBean oldBean = exist(permission);
+		if ( null ==  oldBean) {
+			sessionFactory.getCurrentSession().save(permission);
+			return permission;
+		}
+		return oldBean;
 	}
 
+	@SuppressWarnings("unchecked")
+	private PermissionBean exist(PermissionBean permission) {
+		Session session = sessionFactory.getCurrentSession();
+		Criteria c = session.createCriteria(PermissionBean.class);
+		c.add(Restrictions.eq("permission", permission.getPermission()));
+		List<PermissionBean> list = c.list();
+		if ( null == list || list.size() == 0) {
+			return null;
+		} else {
+			return list.get(0);
+		}
+	}
+	
 	@Override
 	public void deletePermission(String permissionId) {
 		Session session = sessionFactory.getCurrentSession();

@@ -8,6 +8,7 @@
 
 package cn.i7baoz.blog.shiroweb.dao;
 
+
 import cn.i7baoz.blog.shiroweb.pojo.PermissionBean;
 
 /**
@@ -19,6 +20,7 @@ import cn.i7baoz.blog.shiroweb.pojo.PermissionBean;
  * @since JDK 1.7
  * @see
  */
+
 public interface PermissionDao {
 	
 	public PermissionBean createPermission(PermissionBean permission);

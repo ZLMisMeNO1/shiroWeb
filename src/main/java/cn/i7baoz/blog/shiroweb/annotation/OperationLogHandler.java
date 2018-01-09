@@ -35,7 +35,8 @@ public class OperationLogHandler {
 	
 	@After(value="@annotation(login)")
 	public void afterThrowing(JoinPoint jp, OperationLog login) {
-		
+		log.info(login.userId());
+		System.out.println(login.userId());
 		log.info(jp.getTarget());
 	}
 }

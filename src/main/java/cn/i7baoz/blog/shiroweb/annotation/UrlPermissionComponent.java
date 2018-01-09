@@ -1,14 +1,13 @@
 /** 
  * Project Name:shiroWeb 
- * File Name:ExceptionHandler.java 
+ * File Name:UrlPermissionComent.java 
  * Package Name:cn.i7baoz.blog.shiroweb.annotation 
- * Date:2018年1月4日上午10:22:54 
+ * Date:2018年1月9日上午9:23:51 
  * 
  */  
   
 package cn.i7baoz.blog.shiroweb.annotation;  
 
-import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -18,9 +17,9 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
 /** 
- * ClassName:ExceptionHandler 
+ * ClassName:UrlPermissionComent 
  * Function: TODO ADD FUNCTION. 
- * Date:     2018年1月4日 上午10:22:54 
+ * Date:     2018年1月9日 上午9:23:51 
  * @author   baoqi.zhang 
  * @version   
  * @since    JDK 1.7 
@@ -28,15 +27,20 @@ import org.springframework.core.annotation.Order;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value={ElementType.METHOD})
-@Documented
 //最高优先级
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public @interface OperationLog {
+public @interface UrlPermissionComponent {
 
-	String userId() default "";
+	//跟随spring的脚步，每个注解都有value值
+	String value()  default "";
 	
-	long loginTime() default 0;
+	//访问的全URL
+	String url();
 	
-	String value() default "";
+	//描述
+	String desc();
+	
+	//是否为视图
+	boolean isView();
 }
  

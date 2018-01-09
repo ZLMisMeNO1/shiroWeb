@@ -9,7 +9,7 @@
 	</logger>
 
 	<logger name="org">
-		<level value="debug" />
+		<level value="info" />
 	</logger>
 	<logger name="org.apache">
 		<level value="debug" />

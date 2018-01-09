@@ -43,7 +43,7 @@ public class PermissionBean implements Serializable{
 	@Column(length = 255)
 	private String permsId;
 	
-	@Column(nullable=false)
+	@Column(nullable=false,unique=true)
 	private String permission;
 	
 	
@@ -108,11 +108,21 @@ public class PermissionBean implements Serializable{
 		this.descMsg = descMsg;
 	}
 
+
+	@Override
+	public String toString() {
+		return "PermissionBean [permsId=" + permsId + ", permission="
+				+ permission + ", createTime=" + createTime
+				+ ", currentStatus=" + currentStatus + ", descMsg=" + descMsg
+				+ ", permissionType=" + permissionType + "]";
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((permsId == null) ? 0 : permsId.hashCode());
+		result = prime * result
+				+ ((permission == null) ? 0 : permission.hashCode());
 		return result;
 	}
 
@@ -125,10 +135,10 @@ public class PermissionBean implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		PermissionBean other = (PermissionBean) obj;
-		if (permsId == null) {
-			if (other.permsId != null)
+		if (permission == null) {
+			if (other.permission != null)
 				return false;
-		} else if (!permsId.equals(other.permsId))
+		} else if (!permission.equals(other.permission))
 			return false;
 		return true;
 	}
