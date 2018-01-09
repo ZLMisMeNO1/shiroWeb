@@ -8,6 +8,8 @@
   
 package cn.i7baoz.blog.shiroweb.dao.impl;  
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -62,8 +64,13 @@ public class RoleDaoImpl implements RoleDao {
 	public void correlationPermissions(String roleId, String... permissionIds) {
 		RolePermsBean bean;
 		for ( String permissionId : permissionIds ) {
-			bean = getUserRolesBean(roleId,permissionId);
+			bean = getRolePermBean(roleId,permissionId);
 			if ( null == bean ) {
+				bean = new RolePermsBean();
+				bean.setCreateTime(new Timestamp(System.currentTimeMillis()));
+				bean.setPermsId(permissionId);
+				bean.setRoleId(roleId);
+				bean.setSortNumber(0);
 				sessionFactory.getCurrentSession().save(bean);
 			}
 		}
@@ -74,15 +81,19 @@ public class RoleDaoImpl implements RoleDao {
 		
 		RolePermsBean bean;
 		for ( String permissionId : permissionIds ) {
-			bean = getUserRolesBean(roleId,permissionId);
-			if ( null == bean ) {
+			bean = getRolePermBean(roleId,permissionId);
+			if ( null != bean ) {
+//				Session session = sessionFactory.getCurrentSession();
+//				session.delete(bean);
+//				session.flush();
 				sessionFactory.getCurrentSession().delete(bean);
+//				sessionFactory.getCurrentSession().flush();
 			}
 		}
 	}
 	
 	@SuppressWarnings("unchecked")
-	private RolePermsBean getUserRolesBean (String roleId,String permsId) {
+	private RolePermsBean getRolePermBean (String roleId,String permsId) {
 		Session session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(RolePermsBean.class);
 		criteria.add(Restrictions.eq("permsId", permsId)).add(Restrictions.eq("roleId", roleId));
@@ -99,6 +110,24 @@ public class RoleDaoImpl implements RoleDao {
 		Session session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(RoleBean.class);
 		return criteria.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> findPermissionByRoleId(String roleId) {
+		Session session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(RolePermsBean.class);
+		criteria.add(Restrictions.eq("roleId", roleId));
+		
+		List<String> permissions = new ArrayList<String>();
+		List<RolePermsBean> list = criteria.list();
+		if ( null != list ) {
+			for ( RolePermsBean bean : list ) {
+				permissions.add(bean.getPermsId());
+			}
+		}
+		
+		return permissions;
 	}
 }
  

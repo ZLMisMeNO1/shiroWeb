@@ -8,6 +8,8 @@
 
 package cn.i7baoz.blog.shiroweb.service;
 
+import java.util.List;
+
 import cn.i7baoz.blog.shiroweb.pojo.PermissionBean;
 
 /**
@@ -24,4 +26,6 @@ public interface PermissionService {
 	public PermissionBean createPermission(PermissionBean permission);
 
 	public void deletePermission(String permissionId);
+	
+	List<PermissionBean> listAllPermission();
 }

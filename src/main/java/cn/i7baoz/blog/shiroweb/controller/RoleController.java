@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.i7baoz.blog.shiroweb.annotation.UrlPermissionComponent;
 import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
+import cn.i7baoz.blog.shiroweb.pojo.RolePermsBean;
 import cn.i7baoz.blog.shiroweb.service.RoleService;
 import cn.i7baoz.blog.shiroweb.service.UserService;
 import cn.i7baoz.blog.shiroweb.util.ResultMap;
@@ -99,6 +100,28 @@ public class RoleController {
     	resultMap.setSuccess(true);
     	resultMap.setData(bean);
     	return resultMap;
+	}
+	
+	@RequestMapping("findPermissionByRoleId")
+	@ResponseBody
+	@UrlPermissionComponent(url="role/findPermissionByRoleId",desc="根据角色id获取已经拥有的权限",isView=false)
+	public List<String> findPermissionByRoleId(String roleId) {
+		// TODO Auto-generated method stub
+		return roleService.findPermissionByRoleId(roleId);
+	}
+	
+	@RequestMapping("correlationPermissions")
+	@ResponseBody
+	@UrlPermissionComponent(url="role/correlationPermissions",desc="添加角色-权限接口",isView=false)
+	public void correlationPermissions(String roleId, String[] permissionIds) {
+		roleService.correlationPermissions(roleId, permissionIds);
+	}
+	
+	@RequestMapping("uncorrelationPermissions")
+	@ResponseBody
+	@UrlPermissionComponent(url="role/uncorrelationPermissions",desc="移除角色-权限接口",isView=false)
+	public void uncorrelationPermissions(String roleId, String[] permissionIds) {
+		roleService.uncorrelationPermissions(roleId, permissionIds);
 	}
 }
  

@@ -53,6 +53,8 @@
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
 			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="correlation*" propagation="REQUIRED" />
+			<tx:method name="uncorrelation*" propagation="REQUIRED" />
 			<tx:method name="save*" propagation="REQUIRED" />
 			<tx:method name="del*" propagation="REQUIRED" />
 			<tx:method name="execute*" propagation="REQUIRED" />

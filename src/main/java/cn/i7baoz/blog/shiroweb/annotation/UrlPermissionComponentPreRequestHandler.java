@@ -41,11 +41,13 @@ public class UrlPermissionComponentPreRequestHandler {
 		Subject currentUser = SecurityUtils.getSubject();
 		//获取当前访问的url
 		String url = urlPermissionComponent.url();
+		
+		String desc = urlPermissionComponent.desc();
 		//判断用户是否具有访问该url的权限
 		if ( !currentUser.isPermitted(url )) {
 			//没有权限抛出异常并打印只控制台 ，后期可以做一个日志记录
 			log.info("user["+currentUser.getPrincipal()+"] try to connect [" +url+ "] at [" +System.currentTimeMillis()+ "]");
-			throw new AuthenticationException(SystemMessages.USER_HAS_NO_PERMISSION.getMessage());
+			throw new AuthenticationException("["+desc+"]"+SystemMessages.USER_HAS_NO_PERMISSION.getMessage());
 		} 
 	}
 }

@@ -11,6 +11,7 @@ package cn.i7baoz.blog.shiroweb.dao;
 import java.util.List;
 
 import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
+import cn.i7baoz.blog.shiroweb.pojo.RolePermsBean;
 
 /**
  * ClassName:RoleDao Function: TODO ADD FUNCTION. Date: 2017年12月28日 上午10:20:14
@@ -35,4 +36,7 @@ public interface RoleDao {
 
 	//角色删除权限
 	public void uncorrelationPermissions(String roleId, String... permissionIds);
+	
+	//根据角色名查看具有哪些权限
+	List<String> findPermissionByRoleId(String roleId);
 }

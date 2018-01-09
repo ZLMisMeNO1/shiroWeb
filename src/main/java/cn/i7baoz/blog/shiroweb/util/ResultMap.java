@@ -10,6 +10,8 @@ package cn.i7baoz.blog.shiroweb.util;
 
 import java.io.Serializable;
 
+import org.apache.shiro.authc.AuthenticationException;
+
 import cn.i7baoz.blog.shiroweb.status.CurrentStatus;
 
 /** 
@@ -53,6 +55,11 @@ public class ResultMap<T> implements Serializable{
 	public ResultMap(SystemMessages systemMessages) {
 		this.status = 500;
 		this.message = systemMessages.getMessage();
+		this.success = false;
+	}
+	public ResultMap(AuthenticationException error) {
+		this.status = 500;
+		this.message = error.getMessage();
 		this.success = false;
 	}
 	public Integer getStatus() {

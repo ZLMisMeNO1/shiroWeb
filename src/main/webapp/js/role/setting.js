@@ -1,16 +1,17 @@
 
 $(function(){
-		listAllRoles();
+	listAllRoles();
+	
+	$("#createUser").click(function(){
+		layer.open({
+			title : '添加新角色',
+			content : "role/addRoleView",
+			type : 2,
+			area : ['300px','250px'],
+			shade : 0.2
+		})
+	});
 		
-		$("#createUser").click(function(){
-			layer.open({
-				title : '添加新角色',
-				content : "role/addRoleView",
-				type : 2,
-				area : ['300px','250px'],
-				shade : 0.2
-			})
-		});
 })
 function listAllRoles() {
 	executeAjax("role/listAllRoles",{},function(data){
@@ -49,21 +50,37 @@ function listAllRoles() {
 				}, {
 					field : 'currentStatus',
 					title : '当前状态',
-					width : 50
+					width : 50,
+					formatter : function(value,row,index){
+						if ( value == 0 ) {
+							return '正常  <a class="btn btn-danger btn-sm" >停用<a> ';
+						} 
+						if ( value == 1 ) {
+							return '锁定  <a class="btn btn-success btn-sm" >恢复<a> ';
+						}
+						
+					}
 				} ,{
 					field : 'dsfa',
 					title : '操作',
 					width : 50,
 					formatter : function(value,row,index){
-						console.log(value,index,row)
-						if (row.currentStatus ) {
-							return '<a class="btn btn-success btn-sm" >停用<a> '
-						} else {
-							return '<a class="btn btn-success btn-sm" >恢复<a> '
-						}
-						
+						return '<a class="btn btn-success btn-sm premissionSetting" data-rolename="'+row.roleName+'" data-role="'+row.roleId+'" ">权限配置</a> '
 					}
-				}] ]
+				}] ],
+				onLoadSuccess : function(data){
+//					console.log(data)
+					$("a.premissionSetting").on('click',function(){
+						var roleId = $(this).data('role');
+						var roleName = $(this).data('rolename');
+						layer.open({
+							title : '['+roleName+']权限配置',
+							type:2,
+							area:['700px','700px'],
+							content: 'permission/setting?roleId='+roleId
+						});
+					});
+				}
 			};
 		initDataGrid("#roleList", settings);
 	})

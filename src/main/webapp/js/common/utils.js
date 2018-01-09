@@ -14,9 +14,11 @@ function executeAjax(url, setting, done, fail, always) {
 			done(result);
 		}
 	}).fail(function(jqXHR, textStatus) {
-		if (undefined != fail) {
-			fail(jqXHR, textStatus);
-		}
+//		if (undefined != fail) {
+//			fail(jqXHR, textStatus);
+//		}
+		console.log(jqXHR,textStatus)
+//			layer.alertjqXHR(e.responseJSON.message, {icon: 2,title:'错误'});
 	}).always(function() {
 		if (undefined != always) {
 			always();

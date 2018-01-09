@@ -8,6 +8,8 @@
   
 package cn.i7baoz.blog.shiroweb.service.impl;  
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +41,12 @@ public class PermissionServiceImpl implements PermissionService {
 	@Override
 	public void deletePermission(String permissionId) {
 		permissionDao.deletePermission(permissionId);
+	}
+
+	@Override
+	public List<PermissionBean> listAllPermission() {
+		// TODO Auto-generated method stub
+		return permissionDao.listAllPermission();
 	}
 
 }

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import cn.i7baoz.blog.shiroweb.dao.RoleDao;
 import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
+import cn.i7baoz.blog.shiroweb.pojo.RolePermsBean;
 import cn.i7baoz.blog.shiroweb.service.RoleService;
 
 /** 
@@ -57,6 +58,12 @@ public class RoleServiceImpl implements RoleService {
 	public List<RoleBean> listAllRoles() {
 		
 		return roleDao.listAllRoles();
+	}
+
+	@Override
+	public List<String> findPermissionByRoleId(String roleId) {
+		// TODO Auto-generated method stub
+		return roleDao.findPermissionByRoleId(roleId);
 	}
 
 }

@@ -9,6 +9,8 @@
 package cn.i7baoz.blog.shiroweb.dao;
 
 
+import java.util.List;
+
 import cn.i7baoz.blog.shiroweb.pojo.PermissionBean;
 
 /**
@@ -26,4 +28,6 @@ public interface PermissionDao {
 	public PermissionBean createPermission(PermissionBean permission);
 
 	public void deletePermission(String permissionId);
+
+	public List<PermissionBean> listAllPermission();
 }

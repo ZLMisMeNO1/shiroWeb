@@ -27,7 +27,7 @@ public class ControllerExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public ResultMap<String> processUnauthenticatedException(NativeWebRequest request, AuthenticationException e) {
-    	return new ResultMap<String>(SystemMessages.USER_HAS_NO_PERMISSION);
+    	return new ResultMap<String>(e);
     }
     
     @ExceptionHandler({UnauthorizedException.class})

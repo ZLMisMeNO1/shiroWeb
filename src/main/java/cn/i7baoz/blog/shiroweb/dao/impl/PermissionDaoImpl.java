@@ -66,5 +66,14 @@ public class PermissionDaoImpl implements PermissionDao {
 		session.delete(PermissionBean.class.getName(), permissionId);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PermissionBean> listAllPermission() {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		Criteria c = session.createCriteria(PermissionBean.class);
+		return c.list();
+	}
+
 }
  
