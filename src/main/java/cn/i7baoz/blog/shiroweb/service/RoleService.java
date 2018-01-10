@@ -11,7 +11,6 @@ package cn.i7baoz.blog.shiroweb.service;
 import java.util.List;
 
 import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
-import cn.i7baoz.blog.shiroweb.pojo.RolePermsBean;
 
 /**
  * ClassName:RoleService Function: TODO ADD FUNCTION. Date: 2017年12月28日

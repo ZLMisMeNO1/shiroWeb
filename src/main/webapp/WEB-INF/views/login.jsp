@@ -8,16 +8,29 @@
  <%@include file="./common/BasePath.jsp"%>
 </head>
 <body>
-${shiroLoginFailure }
-<!-- <form action="" method="post">
-	<input type="text" value="admin" name="username">
-	<input type="text" value="123" name="password" >
-	<input type="text" value="true" name="remember">
-	<input type="submit" value="login" />
-</form> -->
 <div class="container">
 	<div class="row clearfix">
 		<div class="col-md-12 column">
+			<h3 class="text-center text-success">
+				shiro 用户后台管理系统
+			</h3>
+		</div>
+	</div>
+	<div class="row clearfix">
+		<div class="col-md-6 column">
+			<div class="jumbotron well">
+				<h1>
+					Hello, shiro!
+				</h1>
+				<p>
+					这是shiro + springMVC + hibernate + redis 的一个小案例，具体可访问我的GitHub↓。	
+				</p>
+				<p>
+					 <a class="btn btn-primary btn-large" href="https://github.com/ZLMisMeNO1/shiroWeb" target="_blank">点击访问ShiroWeb GitHub</a>
+				</p>
+			</div>
+		</div>
+		<div class="col-md-6 column">
 			<form role="form" action="" method="post">
 				<div class="form-group">
 					 <label for="username">Username</label><input type="text" name="username" class="form-control" id="username" />
@@ -28,6 +41,9 @@ ${shiroLoginFailure }
 				<div class="checkbox">
 					 <label><input type="checkbox" name="remember" />Remember Me</label>
 				</div> 
+				<div class="form-group">
+					<label style="color:red;">${shiroLoginFailure }</label>
+				</div>
 				<button type="submit" class="btn btn-default">Sign In</button>
 			</form>
 		</div>

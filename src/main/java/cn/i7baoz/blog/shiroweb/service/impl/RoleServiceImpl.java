@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import cn.i7baoz.blog.shiroweb.dao.RoleDao;
 import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
-import cn.i7baoz.blog.shiroweb.pojo.RolePermsBean;
 import cn.i7baoz.blog.shiroweb.service.RoleService;
 
 /** 

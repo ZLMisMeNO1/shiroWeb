@@ -11,8 +11,8 @@ package cn.i7baoz.blog.shiroweb.annotation;
 
 import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
 import cn.i7baoz.blog.shiroweb.annotation.OperationLog;
@@ -33,11 +33,10 @@ public class OperationLogHandler {
 
 	private static final Logger log = Logger.getLogger(OperationLogHandler.class);
 	
-	@After(value="@annotation(login)")
+	@Before(value="@annotation(login)")
 	public void afterThrowing(JoinPoint jp, OperationLog login) {
-		log.info(login.userId());
-		System.out.println(login.userId());
-		log.info(jp.getTarget());
+		//这里可以做一些 url访问次数统计
+		log.info(login.loginTime());
 	}
 }
  

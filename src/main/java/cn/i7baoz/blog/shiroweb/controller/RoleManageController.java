@@ -157,6 +157,7 @@ public class RoleManageController {
 	}
 	@RequestMapping("listPremissionInfoTree")
 	@ResponseBody
+	@UrlPermissionComponent(isView=false,desc="获取所有权限url树",url="permission/listPremissionInfoTree",belong="role/roleSetting")
 	public ResultMap<List<UrlPermissionTreeDto>> getUrlPermissionTree(
 			@RequestParam(defaultValue="/")String rootPermission) {
 		ResultMap<List<UrlPermissionTreeDto>> tree = new ResultMap<List<UrlPermissionTreeDto>>();

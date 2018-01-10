@@ -9,7 +9,6 @@
 package cn.i7baoz.blog.shiroweb.exception;  
 
 import org.apache.shiro.ShiroException;
-import org.apache.shiro.authc.AuthenticationException;
 
 import cn.i7baoz.blog.shiroweb.util.SystemMessages;
 
