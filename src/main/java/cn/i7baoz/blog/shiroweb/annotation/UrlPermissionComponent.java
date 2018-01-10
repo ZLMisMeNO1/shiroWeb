@@ -46,6 +46,10 @@ public @interface UrlPermissionComponent {
 	//是否为菜单
 	boolean isMenu() default false;
 	
+	int sortNumber() default 0;
+	
 	String belong() default "/";
+	
+	
 }
  

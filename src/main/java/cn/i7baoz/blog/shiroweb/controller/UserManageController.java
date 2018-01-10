@@ -42,7 +42,7 @@ public class UserManageController {
 	private UserService userService;
 	
 	@RequestMapping("main")
-	@UrlPermissionComponent(desc = "用户管理", isView = true, url = "usermanage/main",isMenu=true)
+	@UrlPermissionComponent(desc = "用户管理", isView = true, url = "usermanage/main",isMenu=true,sortNumber=2)
 	public ModelAndView usermanage(){
 		ModelAndView m = new ModelAndView("user/usermanage");
 		return m;

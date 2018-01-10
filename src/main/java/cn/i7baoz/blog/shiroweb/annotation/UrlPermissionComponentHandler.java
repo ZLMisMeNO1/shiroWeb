@@ -64,6 +64,7 @@ public class UrlPermissionComponentHandler extends RequestMappingHandlerMapping
 	            bean.setPermissionType(urlPermissionComponent.isView() ? 0 : 1);
 	            bean.setIsMenu(urlPermissionComponent.isMenu());
 	            bean.setBelong(urlPermissionComponent.belong());
+	            bean.setSortNumber(urlPermissionComponent.sortNumber());
 	            if (!permissionBeanList.contains(bean))
 	            	permissionBeanList.add(bean);
 	        }

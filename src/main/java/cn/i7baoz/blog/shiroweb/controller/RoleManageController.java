@@ -50,7 +50,7 @@ public class RoleManageController {
 	private UserService userService;
 	
 	//角色设置视图
-	@UrlPermissionComponent(url="role/roleSetting",desc="角色管理",isView=true,isMenu=true)
+	@UrlPermissionComponent(url="role/roleSetting",desc="角色管理",isView=true,isMenu=true,sortNumber=1)
 	@RequestMapping("roleSetting")
 	public String roleSetting() {
 		return "role/roleSetting";

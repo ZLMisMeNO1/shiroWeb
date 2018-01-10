@@ -42,7 +42,7 @@ public class IndexController {
 		return modelAndView;
 	}
 	
-	@UrlPermissionComponent(url="welcome",desc="欢迎页",isView=true,isMenu=true)
+	@UrlPermissionComponent(url="welcome",desc="欢迎页",isView=true,isMenu=true,sortNumber=0)
 	@RequestMapping("/welcome") 
 	public ModelAndView welcome()  throws AuthenticationException {
 		ModelAndView modelAndView = new ModelAndView("welcome");
