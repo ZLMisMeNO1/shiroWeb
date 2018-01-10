@@ -46,7 +46,6 @@ public class PermissionBean implements Serializable{
 	@Column(nullable=false,unique=true)
 	private String permission;
 	
-	
 	//创建时间
 	private Timestamp createTime = new Timestamp(System.currentTimeMillis());
 
@@ -58,6 +57,13 @@ public class PermissionBean implements Serializable{
 
 	//权限类型  0：视图类型  1：接口类型
 	private Integer permissionType = 0;
+	
+	//所属页面
+	private String belong = "/";
+	//是否为菜单 
+	private Boolean isMenu = false;
+	
+	private Integer sortNumber = 0;
 	
 	public Integer getPermissionType() {
 		return permissionType;
@@ -108,6 +114,30 @@ public class PermissionBean implements Serializable{
 		this.descMsg = descMsg;
 	}
 
+
+	public Boolean getIsMenu() {
+		return isMenu;
+	}
+
+	public void setIsMenu(Boolean isMenu) {
+		this.isMenu = isMenu;
+	}
+
+	public Integer getSortNumber() {
+		return sortNumber;
+	}
+
+	public void setSortNumber(Integer sortNumber) {
+		this.sortNumber = sortNumber;
+	}
+
+	public String getBelong() {
+		return belong;
+	}
+
+	public void setBelong(String belong) {
+		this.belong = belong;
+	}
 
 	@Override
 	public String toString() {

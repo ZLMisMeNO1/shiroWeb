@@ -15,10 +15,10 @@
  }
  </style>
 <script type="text/javascript" src="http://apps.bdimg.com/libs/moment/2.8.3/moment-with-locales.min.js"></script>
-<script type="text/javascript" src="js/permission/setting.js"></script>
+<script type="text/javascript" src="js/user/userRoleSetting.js"></script>
 </head>
 <body>
-<input type="hidden" value="${roleId }" id="currentRoleId"/>
+<input type="hidden" value="${userId }" id="currentUserId"/>
 	 <table id="roleList" ></table> 
 </body>
 </html>

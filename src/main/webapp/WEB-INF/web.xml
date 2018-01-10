@@ -6,7 +6,7 @@
 
 	<display-name>i7baoz.shiroweb</display-name>
 	<welcome-file-list>
-		<welcome-file>/WEB-INF/views/index.jsp</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
 	<context-param>
 		<param-name>log4jConfigLocation</param-name>

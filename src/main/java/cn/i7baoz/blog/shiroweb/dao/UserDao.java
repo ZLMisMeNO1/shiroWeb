@@ -56,5 +56,7 @@ public interface UserDao {
     List<PermissionBean> findPermissionsByUsername(String username);
     
     List<UserBean> listAllUsers();
+    
+	public List<String> findRolesByUserId(String userId);
 }
  

@@ -55,13 +55,15 @@ public class UrlPermissionComponentHandler extends RequestMappingHandlerMapping
 	                continue;
 	            }
 
-	            UrlPermissionComponent demoAnno = method.getAnnotation(UrlPermissionComponent.class);
+	            UrlPermissionComponent urlPermissionComponent = method.getAnnotation(UrlPermissionComponent.class);
 	            bean = new PermissionBean();
 	            bean.setCurrentStatus(CurrentStatus.NORMAL.getStatusCode());
 	            bean.setCreateTime(new Timestamp(System.currentTimeMillis()));
-	            bean.setPermission(demoAnno.url());
-	            bean.setDescMsg(demoAnno.desc());
-	            bean.setPermissionType(demoAnno.isView() ? 0 : 1);
+	            bean.setPermission(urlPermissionComponent.url());
+	            bean.setDescMsg(urlPermissionComponent.desc());
+	            bean.setPermissionType(urlPermissionComponent.isView() ? 0 : 1);
+	            bean.setIsMenu(urlPermissionComponent.isMenu());
+	            bean.setBelong(urlPermissionComponent.belong());
 	            if (!permissionBeanList.contains(bean))
 	            	permissionBeanList.add(bean);
 	        }
@@ -72,10 +74,18 @@ public class UrlPermissionComponentHandler extends RequestMappingHandlerMapping
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
+		PermissionBean root = new PermissionBean();
+		root.setBelong("");
+		root.setCurrentStatus(CurrentStatus.NORMAL.getStatusCode());
+		root.setDescMsg("根目录");
+		root.setIsMenu(false);
+		root.setPermission("/");
+		root.setPermissionType(0);
+		root.setSortNumber(0);
+		permissionBeanList.add(root);
 		for ( PermissionBean bean : permissionBeanList) {
-			permissionService.createPermission(bean);
+			permissionService.saveOrUpdate(bean);
 		}
-
 	}
 
 }

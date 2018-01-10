@@ -42,5 +42,10 @@ public @interface UrlPermissionComponent {
 	
 	//是否为视图
 	boolean isView();
+	
+	//是否为菜单
+	boolean isMenu() default false;
+	
+	String belong() default "/";
 }
  

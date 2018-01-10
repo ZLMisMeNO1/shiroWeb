@@ -7,7 +7,11 @@
 	<packaging>war</packaging>
 
 	<dependencies>
-
+	<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
@@ -296,11 +300,11 @@
 			<version>4.2.4.Final</version>
 		</dependency>
 		<!-- home -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.0.8</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>mysql</groupId> -->
+<!-- 			<artifactId>mysql-connector-java</artifactId> -->
+<!-- 			<version>5.0.8</version> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
@@ -308,8 +312,8 @@
 		</dependency>
 
 		<!-- boss -->
-		<!-- <dependency> <groupId>com.microsoft</groupId> <artifactId>sqlserver</artifactId> 
-			<version>4.0</version> </dependency> -->
+		<dependency> <groupId>com.microsoft</groupId> <artifactId>sqlserver</artifactId> 
+			<version>4.0</version> </dependency>
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>

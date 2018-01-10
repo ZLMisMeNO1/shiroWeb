@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.i7baoz.blog.shiroweb.dao.PermissionDao;
+import cn.i7baoz.blog.shiroweb.dto.UrlPermissionTreeDto;
 import cn.i7baoz.blog.shiroweb.pojo.PermissionBean;
 import cn.i7baoz.blog.shiroweb.service.PermissionService;
 
@@ -49,5 +50,31 @@ public class PermissionServiceImpl implements PermissionService {
 		return permissionDao.listAllPermission();
 	}
 
+	@Override
+	public List<PermissionBean> listMenu() {
+		
+		return permissionDao.listMenu();
+	}
+
+	@Override
+	public PermissionBean saveOrUpdate(PermissionBean permission) {
+		
+		return permissionDao.updateOrSave(permission);
+	}
+
+	@Override
+	public UrlPermissionTreeDto getUrlPermissionTree(String rootPermission) {
+		PermissionBean cureentPermission = permissionDao.getPermissionBeanByPermission(rootPermission);
+		if( null == cureentPermission) {
+			return null;
+		}
+		UrlPermissionTreeDto dto = new UrlPermissionTreeDto(cureentPermission);
+		List<PermissionBean> child = permissionDao.getPermissionBeanByParentPermission(dto.getPermission());
+		if ( null != child && child.size() > 0 ) {
+			for ( PermissionBean bean : child)
+				dto.getChildren().add(getUrlPermissionTree(bean.getPermission()));
+		}
+		return dto;
+	}
 }
  

@@ -19,6 +19,7 @@ import cn.i7baoz.blog.shiroweb.pojo.PermissionBean;
 import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
 import cn.i7baoz.blog.shiroweb.pojo.UserBean;
 import cn.i7baoz.blog.shiroweb.service.UserService;
+import cn.i7baoz.blog.shiroweb.status.CurrentStatus;
 import cn.i7baoz.blog.shiroweb.util.SystemMessages;
 import cn.i7baoz.blog.shiroweb.util.PasswordHelper;
 
@@ -51,10 +52,11 @@ public class UserServiceImpl implements UserService {
 		UserBean user = new UserBean();
 		user.setUsername(username);
 		user.setPassword(password);
+		user.setCurrentStatus(CurrentStatus.NORMAL.getStatusCode());
 		//用户密码加密
 		new PasswordHelper().encryptPassword(user);
-		
-		return userDao.createUser(user);
+		UserBean newUser = userDao.createUser(user);
+		return newUser;
 	}
 
 	@Override
@@ -86,7 +88,10 @@ public class UserServiceImpl implements UserService {
 
 		return userDao.findRoles(username);
 	}
-
+	@Override
+	public List<String> findRolesByUserId(String userId) throws AuthenticationException {
+		return userDao.findRolesByUserId(userId);
+	}
 	@Override
 	public List<String> findPermissions(String username) throws AuthenticationException{
 

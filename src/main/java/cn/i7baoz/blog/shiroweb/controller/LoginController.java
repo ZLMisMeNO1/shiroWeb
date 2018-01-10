@@ -12,10 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import cn.i7baoz.blog.shiroweb.annotation.UrlPermissionComponent;
 
 /**
  * ClassName:LoginController Function: TODO ADD FUNCTION. Date: 2017年12月29日
@@ -35,8 +33,6 @@ public class LoginController {
 	private static String LOGOUT_PAGE = "login";
 
 
-	// 主页面
-	private static String INDEX_PAGE = "index";
 	/**
 	 * 
 	 * login:用户登录，任何权限
@@ -59,11 +55,4 @@ public class LoginController {
 		return LOGOUT_PAGE;
 	}
 	
-	@UrlPermissionComponent(url="/index",desc="主页",isView=true)
-	@RequestMapping("index") 
-	public String index()  throws AuthenticationException {
-		Subject  currentUser = SecurityUtils.getSubject();
-		currentUser.getSession().setAttribute("username", currentUser.getPrincipal());
-		return INDEX_PAGE;
-	}
 }

@@ -1,36 +1,36 @@
 
 $(function(){
-	listAllRoles();
+	listAllUser();
 	
-	$("#createRole").click(function(){
+	$("#createUser").click(function(){
 		layer.open({
 			title : '添加新角色',
-			content : "role/addRoleView",
+			content : "usermanage/addUser",
 			type : 2,
 			area : ['300px','250px'],
 			shade : 0.2,
-			end : function(){
-				listAllRoles();
+			end :function(){
+				listAllUser();
 			}
 		})
 	});
 		
 })
-function listAllRoles() {
-	executeAjax("role/listAllRoles",{},function(result){
+function listAllUser() {
+	executeAjax("usermanage/listUser",{},function(result){
 		var settings = {
 				width : 800,
 				height : 800,
 //				scrollbarSize : 5,
 				fitColumns : true,
 				columns : [ [ {
-					field : 'roleId',
-					title : 'roleId',
+					field : 'userId',
+					title : 'userId',
 					width : 100,
 					hidden : true
 				}, {
-					field : 'roleName',
-					title : '角色名称',
+					field : 'username',
+					title : '用户名称',
 					width : 100
 				}, {
 					field : 'createTime',
@@ -39,16 +39,19 @@ function listAllRoles() {
 					formatter : function(value,row,index) {
 						return moment(value).format('YYYY-MM-DD HH:mm:ss')
 					}
-				}, {
-					field : 'createUsername',
-					title : '创建人',
-					width : 50
-					
-				}, {
-					field : 'descMsg',
-					title : '备注信息',
-					width : 100
-				}, {
+				},
+//				{
+//					field : 'createUsername',
+//					title : '创建人',
+//					width : 50
+//					
+//				},
+//				{
+//					field : 'descMsg',
+//					title : '备注信息',
+//					width : 100
+//				}, 
+				{
 					field : 'currentStatus',
 					title : '当前状态',
 					width : 50,
@@ -66,24 +69,24 @@ function listAllRoles() {
 					title : '操作',
 					width : 50,
 					formatter : function(value,row,index){
-						return '<a class="btn btn-success btn-sm premissionSetting" data-rolename="'+row.roleName+'" data-role="'+row.roleId+'" ">权限配置</a> '
+						return '<a class="btn btn-success btn-sm premissionSetting" data-username="'+row.username+'" data-userid="'+row.userId+'" ">角色配置</a> '
 					}
 				}] ],
 				onLoadSuccess : function(data){
+//					console.log(data)
 					$("a.premissionSetting").on('click',function(){
-						var roleId = $(this).data('role');
-						var roleName = $(this).data('rolename');
+						var userid = $(this).data('userid');
+						var username = $(this).data('username');
 						layer.open({
-							title : '['+roleName+']权限配置',
+							title : '['+username+']角色配置',
 							type:2,
 							area:['700px','700px'],
-							content: 'role/setting?roleId='+roleId
-							
+							content: 'usermanage/userRoleSetting?userId='+userid
 						});
 					});
 				}
 			};
-		if(result.success ) {
+		if(result.success) {
 			settings.data = result.data;
 		}
 		initDataGrid("#roleList", settings);

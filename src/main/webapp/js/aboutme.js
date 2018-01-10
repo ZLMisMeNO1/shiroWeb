@@ -5,11 +5,10 @@ $(function(){
 })
 function listMyRoles(){
 	
-	executeAjax("role/findRoleByUsername",{},function(data){
+	executeAjax("user/listMyRoles",{},function(result){
+		console.log(result)
 		var settings = {
-				data : data,
 				scrollbarSize : 5,
-				singleSelect : false,
 				columns : [ [ {
 					field : 'roleId',
 					title : 'roleId',
@@ -35,28 +34,34 @@ function listMyRoles(){
 				}, {
 					field : 'currentStatus',
 					title : '当前状态',
-					width : 100
+					width : 100,
+					formatter : function(value,row,index){
+						if ( value == 0 ) {
+							return '<button class="btn btn-info btn-sm" >正常</button> ';
+						} else if ( value == 1 ) {
+							return '<button class="btn btn-success btn-sm" >锁定 </button>';
+						}
+					}
 				} ] ]
 			};
+		if(result.success) {
+			settings.data = result.data;
+		}
 		initDataGrid("#roleList", settings);
 	})
 };
 function listMyPerms(){
-	executeAjax("user/findPermissionsByUsername",{
-		data : {
-		}
-	},function(data){
+	executeAjax("user/listMyPermissions",{},function(result){
+		console.log(result)
 		var settings = {
-				data : data,
 				scrollbarSize : 5,
-				singleSelect : false,
 				columns : [ [ {
 					field : 'roleId',
 					title : 'roleId',
 					width : 100,
 					hidden : true
 				}, {
-					field : 'permission',
+					field : 'descMsg',
 					title : '权限名称',
 					width : 100
 				}, {
@@ -70,15 +75,25 @@ function listMyPerms(){
 					width : 100,
 					hidden : true
 				}, {
-					field : 'descMsg',
-					title : '描述',
+					field : 'permission',
+					title : 'URL',
 					width : 100
 				}, {
 					field : 'currentStatus',
 					title : '当前状态',
-					width : 100
+					width : 100,
+					formatter : function(value,row,index){
+						if ( value == 0 ) {
+							return '<button class="btn btn-info btn-sm" >正常</button> ';
+						} else if ( value == 1 ) {
+							return '<button class="btn btn-success btn-sm" >锁定 </button>';
+						}
+					}
 				} ] ]
 			};
+		if(result.success) {
+			settings.data = result.data;
+		}
 		initDataGrid("#permissionList", settings);
 	})
 };

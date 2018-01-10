@@ -13,12 +13,16 @@ function executeAjax(url, setting, done, fail, always) {
 		if (undefined != done) {
 			done(result);
 		}
-	}).fail(function(jqXHR, textStatus) {
+	}).fail(function(e, textStatus) {
 //		if (undefined != fail) {
 //			fail(jqXHR, textStatus);
 //		}
-		console.log(jqXHR,textStatus)
-//			layer.alertjqXHR(e.responseJSON.message, {icon: 2,title:'错误'});
+//		console.log(e,textStatus)
+		if(e.responseJSON) {
+			layer.alert(e.responseJSON.message, {icon: 2,title:'错误'});
+		} else {
+			layer.alert('未知错误',{icon: 2,title:'错误'});
+		}
 	}).always(function() {
 		if (undefined != always) {
 			always();
@@ -41,4 +45,20 @@ function initDataGrid(id, set) {
 	}
 	var option = $.extend({}, optionSet, set);
 	$(id).datagrid(option);
+}
+function initTreeGrid(id, set) {
+	/* 初始化datagrid */
+	var optionSet = {
+		striped : true,
+		fitColumns : true,
+		rownumbers : true,
+		singleSelect: true,
+		loadMsg : '加载中...',
+		pagination : false,
+		remoteSort : false,
+//		scrollbarSize : 6,
+		fit : true
+	}
+	var option = $.extend({}, optionSet, set);
+	$(id).treegrid(option);
 }

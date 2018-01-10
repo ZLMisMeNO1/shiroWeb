@@ -8,8 +8,9 @@
   
 package cn.i7baoz.blog.shiroweb.dao.impl;  
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.Resource;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -17,7 +18,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
-
 import cn.i7baoz.blog.shiroweb.dao.UserDao;
 import cn.i7baoz.blog.shiroweb.pojo.PermissionBean;
 import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
@@ -61,6 +61,10 @@ public class UserDaoImpl implements UserDao{
 		for ( String roleId : roleIds ) {
 			bean = getUserRolesBean(userId,roleId);
 			if ( null == bean ) {
+				bean = new UserRolesBean();
+				bean.setCreateTime(new Timestamp(System.currentTimeMillis()));
+				bean.setRoleId(roleId);
+				bean.setUserId(userId);
 				sessionFactory.getCurrentSession().save(bean);
 			}
 		}
@@ -172,6 +176,25 @@ public class UserDaoImpl implements UserDao{
 		Query query = sessionFactory.getCurrentSession().createQuery(sb.toString());
 		query.setString("username", username);
 		return query.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> findRolesByUserId(String userId) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(UserRolesBean.class);
+		criteria.add(Restrictions.eq("userId", userId));
+		
+		List<String> roles = new ArrayList<String>();
+		List<UserRolesBean> list = criteria.list();
+		if ( null != list ) {
+			for ( UserRolesBean bean : list ) {
+				roles.add(bean.getRoleId());
+			}
+		}
+		
+		return roles;
 	}
 }
  

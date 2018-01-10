@@ -1,40 +1,43 @@
-var currentRoleId ;
+var currentUserId ;
 var havePermissionArrays = [];
 $(function(){
-	currentRoleId = $('#currentRoleId').val();
+	currentUserId = $('#currentUserId').val();
 	//获取角色已拥有的权限
-	listPermissionByRoleId(currentRoleId);
-	listAllPermission();
+	listRolesByUserId(currentUserId);
+	listAllRoles();
 });
-function listPermissionByRoleId(currentRoleId) {
+function listRolesByUserId(currentUserId) {
 	
-	executeAjax("role/findPermissionByRoleId",{
+	executeAjax("usermanage/findRoles",{
 		data : {
-			'roleId' : currentRoleId
+			'userId' : currentUserId
 		},
 		async : false
-	},function(data){
-		console.log(data);
-		havePermissionArrays = data;
+	},function(result){
+//		console.log(result);
+		if(result.success) {
+			havePermissionArrays = result.data;
+		}
+		console.log(havePermissionArrays);
+		
 	})
 }
-function listAllPermission() {
-	executeAjax("permission/listAllPremissionInfo",{},function(data){
+function listAllRoles() {
+	executeAjax("usermanage/listAllRoles",{},function(result){
 		var settings = {
-				data : data,
 				width : 800,
 				height : 800,
 //				scrollbarSize : 5,
 				fitColumns : true,
 				singleSelect : false,
 				columns : [ [ {
-					field : 'permsId',
-					title : 'permsId',
+					field : 'roleId',
+					title : 'roleId',
 					width : 100,
 					hidden : true
 				}, {
-					field : 'descMsg',
-					title : '权限名称',
+					field : 'roleName',
+					title : '角色名称',
 					width : 100
 				}, {
 					field : 'createTime',
@@ -44,22 +47,14 @@ function listAllPermission() {
 						return moment(value).format('YYYY-MM-DD HH:mm:ss')
 					}
 				}, {
-					field : 'permission',
-					title : 'url',
+					field : 'createUsername',
+					title : '创建人',
 					width : 50
 					
 				}, {
-					field : 'permissionType',
-					title : '类型',
-					width : 30,
-					formatter : function(value,row,index){
-						if(value == 0) {
-							return '视图';
-						}
-						if (value == 1) {
-							return '接口';
-						}
-					}
+					field : 'descMsg',
+					title : '描述',
+					width : 30
 				}, {
 					field : 'currentStatus',
 					title : '状态',
@@ -76,34 +71,40 @@ function listAllPermission() {
 					title : '操作',
 					width : 50,
 					formatter : function(value,row,index){
-						if ( havePermissionArrays.includes(row.permsId)) {
-							return '<a class="btn btn-danger btn-sm premissionRemove" data-perm="'+row.permsId+'" >移除</a> '
+						console.log(row.roleId)
+						console.log(havePermissionArrays.includes(row.roleId))
+						if ( havePermissionArrays.includes(row.roleId)) {
+							return '<a class="btn btn-danger btn-sm premissionRemove" data-roleid="'+row.roleId+'" >移除</a> '
 						} else {
-							return '<a class="btn btn-info btn-sm premissionAdd"  data-perm="'+row.permsId+'" >添加</a> '
+							return '<a class="btn btn-info btn-sm premissionAdd"  data-roleid="'+row.roleId+'" >添加</a> '
 						}
 						
 					}
 				}] ],
 				onLoadSuccess : function(data){
+					console.log(data)
 					//移除权限
 					$("a.premissionRemove").on('click',function(){
-						var permsId = $(this).data('perm');
+						var roleid = $(this).data('roleid');
 						var that = $(this);
-						executeAjax("role/uncorrelationPermissions",{data:{'roleId':currentRoleId,'permissionIds':[permsId]}},function(){
+						executeAjax("usermanage/uncorrelationRoles",{data:{'userId':currentUserId,'roleIds':[roleid]}},function(){
 							that.removeClass('btn-danger').addClass('btn-info').html('添加');
 						});
 						
 					});
 					$("a.premissionAdd").on('click',function(){
-						var permsId = $(this).data('perm');
-						console.log(permsId,currentRoleId);
+						var roleid = $(this).data('roleid');
+//						console.log(permsId,currentRoleId);
 						var that = $(this);
-						executeAjax("role/correlationPermissions",{data:{'roleId':currentRoleId,'permissionIds':[permsId]}},function(){
+						executeAjax("usermanage/correlationRoles",{data:{'userId':currentUserId,'roleIds':[roleid]}},function(){
 							that.removeClass('btn-info').addClass('btn-danger').html('移除');
 						});
 					});
 				}
 			};
+		if(result.success) {
+			settings.data = result.data;
+		}
 		initDataGrid("#roleList", settings);
 	})
 }

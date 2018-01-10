@@ -70,6 +70,12 @@ public interface UserService {
     public List<String> findRoles(String username) throws AuthenticationException;
 
     /**
+     * 根据用户名查找其角色
+     * @param username
+     * @return
+     */
+    public List<String> findRolesByUserId(String userId) throws AuthenticationException;
+    /**
      * 根据用户名查找其权限
      * @param username
      * @return

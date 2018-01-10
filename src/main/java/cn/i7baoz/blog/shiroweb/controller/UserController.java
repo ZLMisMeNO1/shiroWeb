@@ -18,11 +18,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.i7baoz.blog.shiroweb.annotation.UrlPermissionComponent;
 import cn.i7baoz.blog.shiroweb.pojo.PermissionBean;
-import cn.i7baoz.blog.shiroweb.pojo.UserBean;
+import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
 import cn.i7baoz.blog.shiroweb.service.UserService;
-import cn.i7baoz.blog.shiroweb.util.SystemMessages;
+import cn.i7baoz.blog.shiroweb.util.ResultMap;
 
 /** 
  * ClassName:UserController 
@@ -40,49 +39,30 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	/**
-	 * 
-	 * listAllUsers:显示所有用户，必须拥有管理员权限
-	 * 
-	 * @author baoqi.zhang 
-	 * @return 
-	 * @since JDK 1.7
-	 */
-	@UrlPermissionComponent(url="user/listUser",desc="查看所有用户",isView=false)
-	@RequestMapping("listUser")
+	//查看我的权限
+	@RequestMapping("listMyPermissions")
 	@ResponseBody
-	public List<UserBean> listAllUsers() throws AuthenticationException{
-		return userService.listAllUsers();
-	}
-	
-	@RequestMapping("create")
-	@ResponseBody
-	@UrlPermissionComponent(url="user/create",desc="创建用户",isView=false)
-	public UserBean createUser (String username,String password) throws AuthenticationException{
-		
-		if ( username.trim().isEmpty() || password.trim().isEmpty() ) {
-			throw new AuthenticationException(SystemMessages.USERNAM_OR_PASSWORD_IS_NULL.getMessage());
-		}
-		return userService.createUser(username,password);
-	}
-	//管理员可以查看任何人的权限
-	@RequestMapping("findPermissionsByUsername")
-	@ResponseBody
-	@UrlPermissionComponent(url="user/findPermissionsByUsername",desc="查看用户权限",isView=false)
-	public List<PermissionBean> findPermissionsByUsername(String username) throws AuthenticationException{
+	public ResultMap<List<PermissionBean>> listMyPermissions() throws AuthenticationException{
+		ResultMap<List<PermissionBean>> resultMap = new  ResultMap<List<PermissionBean>>();
 		Subject subject = SecurityUtils.getSubject();
-		if ( subject.hasRole("administrator") ) {
-			if( null == username || username.isEmpty() ) {
-				username = (String) SecurityUtils.getSubject().getPrincipal();
-			}
-			return userService.findPermissionsByUsername(username);
-		}
-		username = (String) SecurityUtils.getSubject().getPrincipal();
-		return userService.findPermissionsByUsername(username);
+		String username = (String)subject.getPrincipal();
+		resultMap.setData(userService.findPermissionsByUsername(username));
+		resultMap.setSuccess(true);
+		return resultMap;
 	}
 	
-	@RequestMapping("aboutme")
-	@UrlPermissionComponent(url="user/aboutme",desc="关于我",isView=false)
+	//查看我的角色
+	@RequestMapping("listMyRoles")
+	@ResponseBody
+	public  ResultMap<List<RoleBean>>  listMyRoles() throws AuthenticationException{
+		Subject subject = SecurityUtils.getSubject();
+		String username = (String)subject.getPrincipal();
+		ResultMap<List<RoleBean>> resultMap = new  ResultMap<List<RoleBean>>();
+		resultMap.setData(userService.findRoleByUsername(username));
+		resultMap.setSuccess(true);
+		return resultMap;
+	}
+	@RequestMapping("about")
 	public String aboutme() {
 		return "aboutme";
 	}

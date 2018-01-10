@@ -30,4 +30,12 @@ public interface PermissionDao {
 	public void deletePermission(String permissionId);
 
 	public List<PermissionBean> listAllPermission();
+	
+	public List<PermissionBean> listMenu();
+	
+	public PermissionBean updateOrSave(PermissionBean permission);
+	
+	public PermissionBean getPermissionBeanByPermission(String permission);
+	
+	public List<PermissionBean> getPermissionBeanByParentPermission(String parentPermission);
 }
