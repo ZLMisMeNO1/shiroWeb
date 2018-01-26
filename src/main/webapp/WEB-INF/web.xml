@@ -34,7 +34,9 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
             classpath:spring-shiro-web.xml,
-            classpath:shiroweb-application.xml
+            classpath:shiroweb-application.xml,
+            classpath:kafka/producer.xml,
+            classpath:kafka/consumer.xml
         </param-value>
 	</context-param>
 	<!-- 添加shiro支持 -->
@@ -66,7 +68,8 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:shiroweb-application.xml</param-value>
+			<param-value>classpath:shiroweb-application.xml,classpath:kafka/producer.xml,
+            classpath:kafka/consumer.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
@@ -82,6 +85,10 @@
 		<servlet-mapping>
 		<servlet-name>default</servlet-name>
 		<url-pattern>/js/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/css/*</url-pattern>
 	</servlet-mapping>
 
 	<filter>
