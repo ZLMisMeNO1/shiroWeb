@@ -10,7 +10,7 @@
         <constructor-arg>
             <map>
                 <!-- 配置kafka的broke -->
-                <entry key="bootstrap.servers" value="10.10.28.193:9092"/>
+                <entry key="bootstrap.servers" value="localhost:9092"/>
                 <!-- 配置组-->
                 <entry key="group.id" value="group1"/>
                 <entry key="acks" value="all"/>

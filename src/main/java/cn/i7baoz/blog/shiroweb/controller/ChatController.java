@@ -30,8 +30,8 @@ import cn.i7baoz.blog.shiroweb.socket.server.SocketServer;
 public class ChatController {
 
 	@UrlPermissionComponent(url="chat/chatIndex",desc="弹幕",isView=true,isMenu=true)
-	@RequestMapping("chatIndex")
-	public String chatIndex() {
+	@RequestMapping("/{topic}")
+	public String chatIndex(@PathVariable String topic) {
 		return "chat/index";
 	}
 	@RequestMapping("add/{message}")

@@ -52,7 +52,7 @@
 					</div>
 					<input type="text" class="form-control input-lg" placeholder="输入你要吐槽的内容..."  id="text">
 					<button class="btn btn-lg btn-info" id="btn">发送</button>
-					<div id="message" class="hidden"></div>
+					<div id="message" ></div>
 				</div>
 			</div>
 		</div>

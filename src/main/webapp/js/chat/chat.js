@@ -1,8 +1,13 @@
 $(function(){
+	var curWwwPath = window.document.location.href;
+	console.log(curWwwPath)
+	if ( curWwwPath.includes('http') ) {
+		curWwwPath = curWwwPath.replace('http','ws')
+	}
 	var websocket = null;
     //判断当前浏览器是否支持WebSocket
     if ('WebSocket' in window) {
-        websocket = new WebSocket("ws://10.10.28.193:8080/shiroWeb/chat/test");
+        websocket = new WebSocket(curWwwPath);
     }
     else {
         alert('当前浏览器 Not support websocket')

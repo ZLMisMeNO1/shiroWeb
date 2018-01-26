@@ -30,29 +30,30 @@ kafka启动
 	**重要：请确保在启动Kafka服务器前，Zookeeper实例已经准备好并开始运行。**
 2. 按下Shift+右键，选择“打开命令窗口”选项，打开命令行。
 3. 现在输入
-```
-.\bin\windows\kafka-server-start.bat .\config\server.properties   
-```
+
+	```
+	.\bin\windows\kafka-server-start.bat .\config\server.properties   
+	```
+
 可能出现的错误： 
 	1. 找不到或无法加载主类
 	[解决方法](http://blog.csdn.net/u012931508/article/details/55211390) ：
 	在kafka安装目录中找到bin\windows目录中的kafka-run-class.bat找到142行为%CLASSPATH%加上双引号
 	修改前： 
+	
 	```
 	set COMMAND=%JAVA% %KAFKA_HEAP_OPTS% %KAFKA_JVM_PERFORMANCE_OPTS% %KAFKA_JMX_OPTS% %KAFKA_LOG4J_OPTS% -cp %CLASSPATH% %KAFKA_OPTS% %*
 	
 	```
-	修改后
+修改后
+	
 	```
 	set COMMAND=%JAVA% %KAFKA_HEAP_OPTS% %KAFKA_JVM_PERFORMANCE_OPTS% %KAFKA_JMX_OPTS% %KAFKA_LOG4J_OPTS% -cp "%CLASSPATH%" %KAFKA_OPTS% %*
 	```
-	2. Unsupported major.minor version 52.0
+2. Unsupported major.minor version 52.0
 	jdk版本可能需要升级
 	
-创建主题
-```
-.\bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic linlin  
-```
+
 	
 		
 	
