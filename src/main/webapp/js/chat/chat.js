@@ -1,10 +1,11 @@
+//jquery.danmu.js (//github.com/chiruom/danmu/) - Licensed under the MIT license
+var websocket;
 $(function(){
+	var con = $("body")
 	var curWwwPath = window.document.location.href;
-	console.log(curWwwPath)
 	if ( curWwwPath.includes('http') ) {
 		curWwwPath = curWwwPath.replace('http','ws')
 	}
-	var websocket = null;
     //判断当前浏览器是否支持WebSocket
     if ('WebSocket' in window) {
         websocket = new WebSocket(curWwwPath);
@@ -20,22 +21,19 @@ $(function(){
 
     //连接成功建立的回调方法
     websocket.onopen = function () {
+    	heartCheck.start();
         setMessageInnerHTML("WebSocket连接成功");
     }
 
     //接收到消息的回调方法
     websocket.onmessage = function (event) {
-        var item={
-// 			   img:'', //图片 
- 			   info:event.data, //文字 
- 			   href:'javascript:;', //链接 
- 			   close:false, //显示关闭按钮 
- 			   speed:6, //延迟,单位秒,默认6 
- 			   bottom:70, //距离底部高度,单位px,默认随机 
- 			   color:'#fff', //颜色,默认白色 
- 			   old_ie_color:'#000000', //ie低版兼容色,不能与网页背景相同,默认黑色 
- 			 }
- 			$('#mainA').barrager(item);
+    	heartCheck.reset();
+        var msg = '<div class="list-group-item" >' + event.data +'</div>';
+        if(event.data == 'fsdafadsfdsa') {
+        	return ;
+        }
+        $('#danmuArea').barrage({msg:event.data})
+//        $('#danmuArea').append(msg); 
     }
 
     //连接关闭的回调方法
@@ -76,3 +74,16 @@ $(function(){
          }
     }
 });
+var heartCheck = {
+	    timeout: 60000,//60ms
+	    timeoutObj: null,
+	    reset: function(){
+	        clearTimeout(this.timeoutObj);
+	        this.start();
+	    },
+	    start: function(){
+	        this.timeoutObj = setTimeout(function(){
+	        	websocket.send("fsdafadsfdsa");
+	        }, this.timeout)
+	    }
+	}

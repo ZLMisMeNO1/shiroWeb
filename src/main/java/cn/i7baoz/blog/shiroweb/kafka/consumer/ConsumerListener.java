@@ -24,10 +24,10 @@ import cn.i7baoz.blog.shiroweb.socket.server.SocketServer;
  */
 public final class ConsumerListener implements MessageListener<String,String>{
 
-	 @Override
-	    public void onMessage(ConsumerRecord<String, String> data) {
-	       System.out.println("消息： " + data);
-	       SocketServer.sendMessageToAllUser(data.value());
-	    }
+	@Override
+    public void onMessage(ConsumerRecord<String, String> data) {
+       System.out.println("消息： " + data);
+       SocketServer.sendMessageToAllUser(data.value());
+    }
 }
  

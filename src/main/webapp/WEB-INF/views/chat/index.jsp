@@ -7,9 +7,9 @@
 	<meta charset="utf-8">
 	<title>聊天室</title>
 	<%@include file="../common/BasePath.jsp" %>
-	<link  href="css/chat/barrager.css" rel="stylesheet">
+	<link  href="css/chat/barrage.css" rel="stylesheet">
 	<script src="Plugins/jquery/jquery-1.10.1.js"></script>
-	<script src="js/chat/jquery.barrager.js"></script>
+	 <script src="js/chat/barrage.js"></script> 
 	<script src="js/chat/chat.js"></script>
 </head>
  <style type="text/css">
@@ -47,12 +47,13 @@
 					</div>
 				</div>
 				<div class="col-md-9 column">
-					<div class="text-center" id="mainA" style="border:1px solid black;height:650px;">
-						假装此处有视频
+					<div class="text-center" style="height:300px;" id="danmuArea">
 					</div>
-					<input type="text" class="form-control input-lg" placeholder="输入你要吐槽的内容..."  id="text">
-					<button class="btn btn-lg btn-info" id="btn">发送</button>
-					<div id="message" ></div>
+					<div class="" style="margin-top:370px;">
+						<input type="text" class="form-control input-lg" placeholder="输入你要吐槽的内容..."  id="text">
+						<button class="btn btn-lg btn-info btn-block" id="btn">发送</button>
+						<div id="message" ></div>
+					</div>
 				</div>
 			</div>
 		</div>

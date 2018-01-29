@@ -34,12 +34,6 @@ public class ChatController {
 	public String chatIndex(@PathVariable String topic) {
 		return "chat/index";
 	}
-	@RequestMapping("add/{message}")
-	@ResponseBody
-	public String sendMessage(@PathVariable String message) {
-		SocketServer.sendMessageToAllUser(message);
-		return message;
-	}
 	
 }
  

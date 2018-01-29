@@ -18,11 +18,7 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
-import org.apache.shiro.SecurityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.web.bind.annotation.PathVariable;
-
+import cn.i7baoz.blog.shiroweb.dto.UserWebsocketDto;
 import cn.i7baoz.blog.shiroweb.socket.server.SocketServer;
 
 /** 
@@ -35,8 +31,9 @@ import cn.i7baoz.blog.shiroweb.socket.server.SocketServer;
  * @see       
  */
 @ServerEndpoint("/chat/{channel}")
-public class SocketClient {
+public class SocketClient{
 
+	private Session session;
 
 	/**
      * 连接建立成功调用的方法
@@ -46,9 +43,12 @@ public class SocketClient {
     @OnOpen
     public void onOpen(Session session,
     		@PathParam(value = "channel") String channel) throws IOException{
-    	Object user = SecurityUtils.getSubject().getPrincipal();
-        SocketServer.addWebSession(user, session);
-        System.out.println("channel:" + channel);
+    	this.session = session;
+    	UserWebsocketDto dto = new UserWebsocketDto();
+    	dto.setClent(this);
+    	dto.setTopic(channel);
+    	dto.setUser(session.getUserPrincipal().getName());
+    	SocketServer.addSocket(dto);
     }
 
     /**
@@ -56,8 +56,8 @@ public class SocketClient {
      */
     @OnClose
     public void onClose(){
-    	Object user = SecurityUtils.getSubject().getPrincipal();
-    	SocketServer.removeSession(user);
+//    	Object user = SecurityUtils.getSubject().getPrincipal();
+//    	SocketServer.removeSession(user);
     }
     
    
@@ -68,15 +68,28 @@ public class SocketClient {
      * @param session 可选的参数
      */
     @OnMessage
-    public void onMessage(
+    public void reveiveMessage(
     		@PathParam(value = "channel") String channel,String message, Session session) {
-    	System.out.println("channel:" + channel);
+    	if ( null == message || message.isEmpty() ) {
+    		return ;
+    	}
+//    	System.out.println("channel:" + channel);
     	//收到消息后，有两种处理方式，
     	//1.可以执行下面代码，直接将消息群发
-    	SocketServer.addMessage(channel,message);
-        
+    	
+//    	for(Session s: session.getOpenSessions()){
+//          try {
+////          	session.getBasicRemote().sendText(message);
+//        	  RemoteEndpoint.Async a = session.getAsyncRemote();
+//        	  System.out.println(a.getSendTimeout());
+//        	  a.sendText(message);
+//          } catch (Exception e) {
+//              e.printStackTrace();
+//              continue;
+//          }
+//      }
         //2.将用户的消息添加至消息队列（kafka）
-        
+    	SocketServer.addMessage(channel,message);
     }
 
     /**
@@ -88,6 +101,11 @@ public class SocketClient {
     public void onError(Session session, Throwable error){
         error.printStackTrace();
     }
+    
+    public void sendMessage(String message)  {  
+        this.session.getAsyncRemote().sendText(message);  
+    }
+
 
 }
  
