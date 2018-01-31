@@ -8,7 +8,6 @@
 
 package cn.i7baoz.blog.shiroweb.pojo;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -31,7 +30,7 @@ import cn.i7baoz.blog.shiroweb.enums.CurrentStatusEnum;
  */
 @Table(name = "t_user")
 @Entity
-public class UserBean implements Serializable {
+public class UserBean extends BaseBean {
 
 	/**
 	 * 

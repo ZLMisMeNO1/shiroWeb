@@ -8,7 +8,6 @@
   
 package cn.i7baoz.blog.shiroweb.pojo;  
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -30,10 +29,11 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Table(name="t_permission")
 @Entity
-public class PermissionBean implements Serializable{
+public class PermissionBean extends BaseBean{
 
-	/**
-	 * 
+
+	/**   
+	 * @Fields serialVersionUID :
 	 */
 	private static final long serialVersionUID = 1L;
 

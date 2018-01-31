@@ -53,7 +53,7 @@ kafka启动
 2. Unsupported major.minor version 52.0
 	jdk版本可能需要升级
 	
-
-	
+redis-windows
+[redis-3.0下载地址](https://github-production-release-asset-2e65be.s3.amazonaws.com/3402186/bb1d10fc-3fac-11e6-8dc7-a51af1d6f36f?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20180131%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180131T132556Z&X-Amz-Expires=300&X-Amz-Signature=a5dd628f409658718c458756ae850e449dc6499234bffa06aca62c2b0e76004f&X-Amz-SignedHeaders=host&actor_id=17779594&response-content-disposition=attachment%3B%20filename%3DRedis-x64-3.2.100.msi&response-content-type=application%2Foctet-stream)	
 		
 	

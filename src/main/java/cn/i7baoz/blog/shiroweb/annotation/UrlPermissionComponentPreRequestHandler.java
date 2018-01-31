@@ -36,7 +36,7 @@ public class UrlPermissionComponentPreRequestHandler {
 	
 	//在用户访问之前，判断用户是否具有url访问的权限
 	@Before(value="@annotation(urlPermissionComponent)")
-	public void afterThrowing(JoinPoint jp, UrlPermissionComponent urlPermissionComponent) {
+	public void beforeConnection(JoinPoint jp, UrlPermissionComponent urlPermissionComponent) {
 		//获取当前用户
 		Subject currentUser = SecurityUtils.getSubject();
 		//获取当前访问的url

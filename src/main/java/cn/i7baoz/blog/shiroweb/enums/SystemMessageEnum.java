@@ -34,7 +34,9 @@ public enum SystemMessageEnum {
 	
 	, USER_HAS_NO_PERMISSION("无权限")
 	
-	, UNKOWN_ERROR("未知错误！");
+	, UNKOWN_ERROR("未知错误！")
+	
+	, POJO_TO_JSON_STRING_WRONG("转换错误");
 	
 	
 	private String message;

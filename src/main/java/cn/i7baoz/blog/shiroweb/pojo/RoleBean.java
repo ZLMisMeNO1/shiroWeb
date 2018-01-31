@@ -8,7 +8,6 @@
   
 package cn.i7baoz.blog.shiroweb.pojo;  
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -30,7 +29,7 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity
 @Table(name="t_role")
-public class RoleBean implements Serializable{
+public class RoleBean extends BaseBean{
 
 	/**
 	 * 

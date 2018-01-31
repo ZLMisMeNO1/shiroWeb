@@ -25,8 +25,11 @@ import org.springframework.web.servlet.ModelAndView;
 import cn.i7baoz.blog.shiroweb.annotation.UrlPermissionComponent;
 import cn.i7baoz.blog.shiroweb.dto.ResultMap;
 import cn.i7baoz.blog.shiroweb.dto.UrlPermissionTreeDto;
+import cn.i7baoz.blog.shiroweb.enums.LogTopicEnum;
+import cn.i7baoz.blog.shiroweb.enums.OptionEnmu;
 import cn.i7baoz.blog.shiroweb.pojo.PermissionBean;
 import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
+import cn.i7baoz.blog.shiroweb.pojo.UserOptionLogBean;
 import cn.i7baoz.blog.shiroweb.service.PermissionService;
 import cn.i7baoz.blog.shiroweb.service.RoleService;
 import cn.i7baoz.blog.shiroweb.service.UserService;
@@ -105,7 +108,12 @@ public class RoleManageController {
     	bean.setDescMsg(desc);
     	bean.setCreateUsername(current_user);
 //    	roleService.createRole(bean);
-//    	kafkaProducer.s
+    	
+//    	kafkaProducer.send(LogTopicEnum.ROLE_LOGS.name(),
+		kafkaProducer.send("test",
+    			UserOptionLogBean.toLogString(current_user,
+    					LogTopicEnum.ROLE_LOGS, OptionEnmu.CREATE, bean));
+    	
     	resultMap.setSuccess(true);
     	resultMap.setData(bean);
     	return resultMap;

@@ -17,7 +17,7 @@ package cn.i7baoz.blog.shiroweb.enums;
  * @see       
  */
 public enum OptionEnmu {
-
+	LOGIN("登录系统"),
 	CREATE("添加"),
 	UPDATE("修改"),
 	DELETE("删除");

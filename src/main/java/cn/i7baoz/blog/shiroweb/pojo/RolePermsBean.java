@@ -30,7 +30,12 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Table(name="t_role_perms")
 @Entity
-public class RolePermsBean {
+public class RolePermsBean extends BaseBean{
+
+	/**   
+	 * @Fields serialVersionUID :
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(generator = "system-uuid")
