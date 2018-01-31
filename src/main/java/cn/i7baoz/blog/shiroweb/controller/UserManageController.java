@@ -22,8 +22,8 @@ import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
 import cn.i7baoz.blog.shiroweb.pojo.UserBean;
 import cn.i7baoz.blog.shiroweb.service.RoleService;
 import cn.i7baoz.blog.shiroweb.service.UserService;
-import cn.i7baoz.blog.shiroweb.util.ResultMap;
-import cn.i7baoz.blog.shiroweb.util.SystemMessages;
+import cn.i7baoz.blog.shiroweb.dto.ResultMap;
+import cn.i7baoz.blog.shiroweb.enums.SystemMessageEnum;
 
 /** 
  * ClassName:UserManageController 
@@ -96,7 +96,7 @@ public class UserManageController {
 	public ResultMap<UserBean> createUser (String username,String password) throws AuthenticationException{
 		
 		if ( username.trim().isEmpty() || password.trim().isEmpty() ) {
-			throw new AuthenticationException(SystemMessages.USERNAM_OR_PASSWORD_IS_NULL.getMessage());
+			throw new AuthenticationException(SystemMessageEnum.USERNAM_OR_PASSWORD_IS_NULL.getMessage());
 		}
 		ResultMap<UserBean> resultMap = new ResultMap<UserBean>();
 		resultMap.setSuccess(true);

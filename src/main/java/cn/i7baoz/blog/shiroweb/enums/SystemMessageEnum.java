@@ -6,7 +6,7 @@
  * 
  */
 
-package cn.i7baoz.blog.shiroweb.util;
+package cn.i7baoz.blog.shiroweb.enums;
 
 /**
  * ClassName:AllMsg Function: TODO ADD FUNCTION. Date: 2018年1月2日 下午4:02:22
@@ -16,7 +16,7 @@ package cn.i7baoz.blog.shiroweb.util;
  * @since JDK 1.7
  * @see
  */
-public enum SystemMessages {
+public enum SystemMessageEnum {
 
 	SAME_USERNAME_EXCEPTION("用户名已存在，请重新输入！")
 
@@ -40,7 +40,7 @@ public enum SystemMessages {
 	private String message;
 	
 	
-	private SystemMessages(String message) {
+	private SystemMessageEnum(String message) {
 		this.message = message;
 	}
 

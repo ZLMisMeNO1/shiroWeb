@@ -6,13 +6,14 @@
  * 
  */  
   
-package cn.i7baoz.blog.shiroweb.util;  
+package cn.i7baoz.blog.shiroweb.dto;  
 
 import java.io.Serializable;
 
 import org.apache.shiro.authc.AuthenticationException;
 
-import cn.i7baoz.blog.shiroweb.status.CurrentStatus;
+import cn.i7baoz.blog.shiroweb.enums.CurrentStatusEnum;
+import cn.i7baoz.blog.shiroweb.enums.SystemMessageEnum;
 
 /** 
  * ClassName:ResponseResult 
@@ -47,12 +48,12 @@ public class ResultMap<T> implements Serializable{
 	public ResultMap() {
 		
 	}
-	public ResultMap(CurrentStatus currentStatus) {
+	public ResultMap(CurrentStatusEnum currentStatus) {
 		this.status = currentStatus.getStatusCode();
 		this.message = currentStatus.getMessage();
 		this.success = false;
 	}
-	public ResultMap(SystemMessages systemMessages) {
+	public ResultMap(SystemMessageEnum systemMessages) {
 		this.status = 500;
 		this.message = systemMessages.getMessage();
 		this.success = false;

@@ -19,7 +19,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import cn.i7baoz.blog.shiroweb.status.CurrentStatus;
+import cn.i7baoz.blog.shiroweb.enums.CurrentStatusEnum;
 
 /**
  * ClassName:UserBean Function: TODO ADD FUNCTION. Date: 2017年12月27日 下午4:31:25
@@ -56,7 +56,7 @@ public class UserBean implements Serializable {
 	private String salt;
 
 	// 用户状态
-	private Integer currentStatus = CurrentStatus.NORMAL.getStatusCode();
+	private Integer currentStatus = CurrentStatusEnum.NORMAL.getStatusCode();
 
 	// 创建时间
 	private Timestamp createTime = new Timestamp(System.currentTimeMillis());

@@ -18,10 +18,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.i7baoz.blog.shiroweb.dto.ResultMap;
 import cn.i7baoz.blog.shiroweb.pojo.PermissionBean;
 import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
 import cn.i7baoz.blog.shiroweb.service.UserService;
-import cn.i7baoz.blog.shiroweb.util.ResultMap;
 
 /** 
  * ClassName:UserController 

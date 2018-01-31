@@ -23,10 +23,10 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 
+import cn.i7baoz.blog.shiroweb.enums.CurrentStatusEnum;
 import cn.i7baoz.blog.shiroweb.pojo.UserBean;
 import cn.i7baoz.blog.shiroweb.service.UserService;
-import cn.i7baoz.blog.shiroweb.status.CurrentStatus;
-import cn.i7baoz.blog.shiroweb.util.SystemMessages;
+import cn.i7baoz.blog.shiroweb.enums.SystemMessageEnum;
 
 /** 
  * ClassName:UserRealm 
@@ -67,15 +67,15 @@ public class UserRealm extends AuthorizingRealm{
 		try {
 			user = userService.findByUsername(username);
 		} catch (AuthenticationException e) {
-			throw new AuthenticationException(SystemMessages.UNKOWN_ERROR.getMessage());
+			throw new AuthenticationException(SystemMessageEnum.UNKOWN_ERROR.getMessage());
 		}
         
         if(user == null) {
-            throw new UnknownAccountException(SystemMessages.USER_IS_NOT_EXIST.getMessage());//没找到帐号
+            throw new UnknownAccountException(SystemMessageEnum.USER_IS_NOT_EXIST.getMessage());//没找到帐号
         }
 
-        if(CurrentStatus.LOCKED.getStatusCode().equals(user.getCurrentStatus())) {
-            throw new AuthenticationException(SystemMessages.USER_IS_LOCKED.getMessage()); //帐号锁定
+        if(CurrentStatusEnum.LOCKED.getStatusCode().equals(user.getCurrentStatus())) {
+            throw new AuthenticationException(SystemMessageEnum.USER_IS_LOCKED.getMessage()); //帐号锁定
         }
         //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(

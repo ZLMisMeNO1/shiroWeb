@@ -15,6 +15,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,13 +23,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import cn.i7baoz.blog.shiroweb.annotation.UrlPermissionComponent;
+import cn.i7baoz.blog.shiroweb.dto.ResultMap;
 import cn.i7baoz.blog.shiroweb.dto.UrlPermissionTreeDto;
 import cn.i7baoz.blog.shiroweb.pojo.PermissionBean;
 import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
 import cn.i7baoz.blog.shiroweb.service.PermissionService;
 import cn.i7baoz.blog.shiroweb.service.RoleService;
 import cn.i7baoz.blog.shiroweb.service.UserService;
-import cn.i7baoz.blog.shiroweb.util.ResultMap;
 
 /** 
  * ClassName:RoleManageController 角色管理
@@ -48,6 +49,9 @@ public class RoleManageController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private KafkaTemplate<String, String> kafkaProducer;
 	
 	//角色设置视图
 	@UrlPermissionComponent(url="role/roleSetting",desc="角色管理",isView=true,isMenu=true,sortNumber=1)
@@ -95,13 +99,13 @@ public class RoleManageController {
 			,String desc) throws AuthenticationException{
 		ResultMap<RoleBean> resultMap = new ResultMap<RoleBean>();
 		
-		Subject subject = SecurityUtils.getSubject();
+		String current_user = String.valueOf(SecurityUtils.getSubject().getPrincipal());
     	RoleBean bean = new RoleBean();
     	bean.setRoleName(roleName);
     	bean.setDescMsg(desc);
-    	bean.setCreateUsername(String.valueOf(subject.getPrincipal()));
-    	roleService.createRole(bean);
-    	
+    	bean.setCreateUsername(current_user);
+//    	roleService.createRole(bean);
+//    	kafkaProducer.s
     	resultMap.setSuccess(true);
     	resultMap.setData(bean);
     	return resultMap;

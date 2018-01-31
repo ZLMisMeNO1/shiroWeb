@@ -10,7 +10,7 @@ package cn.i7baoz.blog.shiroweb.exception;
 
 import org.apache.shiro.ShiroException;
 
-import cn.i7baoz.blog.shiroweb.util.SystemMessages;
+import cn.i7baoz.blog.shiroweb.enums.SystemMessageEnum;
 
 /** 
  * ClassName:UserException 用户方面的异常
@@ -28,13 +28,13 @@ public class TraditionException extends ShiroException{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private SystemMessages systemMessages;
+	private SystemMessageEnum systemMessages;
 	
 	public TraditionException() {
 		super();
-		this.systemMessages = SystemMessages.UNKOWN_ERROR;
+		this.systemMessages = SystemMessageEnum.UNKOWN_ERROR;
 	}
-	public TraditionException(SystemMessages systemMessages) {
+	public TraditionException(SystemMessageEnum systemMessages) {
 		super();
 		this.systemMessages = systemMessages;
 	}
@@ -64,7 +64,7 @@ public class TraditionException extends ShiroException{
 		return this.systemMessages.getMessage();
 	}
 	
-	public SystemMessages getSystemMessages() {
+	public SystemMessageEnum getSystemMessages() {
 		return systemMessages;
 	}
 }

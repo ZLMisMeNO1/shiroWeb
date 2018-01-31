@@ -15,12 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.i7baoz.blog.shiroweb.dao.UserDao;
+import cn.i7baoz.blog.shiroweb.enums.CurrentStatusEnum;
 import cn.i7baoz.blog.shiroweb.pojo.PermissionBean;
 import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
 import cn.i7baoz.blog.shiroweb.pojo.UserBean;
 import cn.i7baoz.blog.shiroweb.service.UserService;
-import cn.i7baoz.blog.shiroweb.status.CurrentStatus;
-import cn.i7baoz.blog.shiroweb.util.SystemMessages;
+import cn.i7baoz.blog.shiroweb.enums.SystemMessageEnum;
 import cn.i7baoz.blog.shiroweb.util.PasswordHelper;
 
 /** 
@@ -46,13 +46,13 @@ public class UserServiceImpl implements UserService {
 		UserBean oldUser = userDao.findByUsername(username);
 		
 		if ( null != oldUser ) {
-			throw new AuthenticationException(SystemMessages.SAME_USERNAME_EXCEPTION.getMessage());
+			throw new AuthenticationException(SystemMessageEnum.SAME_USERNAME_EXCEPTION.getMessage());
 		}
 		
 		UserBean user = new UserBean();
 		user.setUsername(username);
 		user.setPassword(password);
-		user.setCurrentStatus(CurrentStatus.NORMAL.getStatusCode());
+		user.setCurrentStatus(CurrentStatusEnum.NORMAL.getStatusCode());
 		//用户密码加密
 		new PasswordHelper().encryptPassword(user);
 		UserBean newUser = userDao.createUser(user);

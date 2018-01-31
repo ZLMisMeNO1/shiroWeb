@@ -6,7 +6,7 @@
  * 
  */  
   
-package cn.i7baoz.blog.shiroweb.status;  
+package cn.i7baoz.blog.shiroweb.enums;  
 /** 
  * ClassName:CurrentStatus 
  * Function: TODO ADD FUNCTION. 
@@ -16,7 +16,7 @@ package cn.i7baoz.blog.shiroweb.status;
  * @since    JDK 1.7 
  * @see       
  */
-public enum CurrentStatus {
+public enum CurrentStatusEnum {
 
 	NORMAL(0,"正常"),
 	
@@ -28,7 +28,7 @@ public enum CurrentStatus {
 	
 	private String message;
 	
-	CurrentStatus (Integer statusCode,String message) {
+	CurrentStatusEnum (Integer statusCode,String message) {
 		this.statusCode = statusCode;
 		this.message = message;
 	}

@@ -13,15 +13,17 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+
+import cn.i7baoz.blog.shiroweb.enums.CurrentStatusEnum;
 import cn.i7baoz.blog.shiroweb.pojo.PermissionBean;
 import cn.i7baoz.blog.shiroweb.service.PermissionService;
-import cn.i7baoz.blog.shiroweb.status.CurrentStatus;
 
 /** 
  * ClassName:UrlPermissionComentHandler 
@@ -57,7 +59,7 @@ public class UrlPermissionComponentHandler extends RequestMappingHandlerMapping
 
 	            UrlPermissionComponent urlPermissionComponent = method.getAnnotation(UrlPermissionComponent.class);
 	            bean = new PermissionBean();
-	            bean.setCurrentStatus(CurrentStatus.NORMAL.getStatusCode());
+	            bean.setCurrentStatus(CurrentStatusEnum.NORMAL.getStatusCode());
 	            bean.setCreateTime(new Timestamp(System.currentTimeMillis()));
 	            bean.setPermission(urlPermissionComponent.url());
 	            bean.setDescMsg(urlPermissionComponent.desc());
@@ -77,7 +79,7 @@ public class UrlPermissionComponentHandler extends RequestMappingHandlerMapping
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		PermissionBean root = new PermissionBean();
 		root.setBelong("");
-		root.setCurrentStatus(CurrentStatus.NORMAL.getStatusCode());
+		root.setCurrentStatus(CurrentStatusEnum.NORMAL.getStatusCode());
 		root.setDescMsg("根目录");
 		root.setIsMenu(false);
 		root.setPermission("/");

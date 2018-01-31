@@ -16,7 +16,7 @@ import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.cache.CacheManager;
 
 import cn.i7baoz.blog.shiroweb.jedis.JedisClient;
-import cn.i7baoz.blog.shiroweb.util.SystemMessages;
+import cn.i7baoz.blog.shiroweb.enums.SystemMessageEnum;
 import redis.clients.jedis.Jedis;
 
 /** 
@@ -49,7 +49,7 @@ public class RetryLimitHashedCredentialsMatcher  extends HashedCredentialsMatche
             //if retry count > 5 throw
         	//一分钟后可以重新登录
         	jedis.expire(jedisKey,60);
-            throw new ExcessiveAttemptsException(SystemMessages.RETRY_TOO_MANY_TIMES.getMessage());
+            throw new ExcessiveAttemptsException(SystemMessageEnum.RETRY_TOO_MANY_TIMES.getMessage());
         }
         boolean matches = super.doCredentialsMatch(token, info);
         if ( matches) {

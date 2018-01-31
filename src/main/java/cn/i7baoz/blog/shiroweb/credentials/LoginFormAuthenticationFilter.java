@@ -17,7 +17,7 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.springframework.stereotype.Controller;
 
-import cn.i7baoz.blog.shiroweb.util.SystemMessages;
+import cn.i7baoz.blog.shiroweb.enums.SystemMessageEnum;
 
 /** 
  * ClassName:LoginFormAuthenticationFilter 
@@ -37,7 +37,7 @@ public class LoginFormAuthenticationFilter extends FormAuthenticationFilter{
 //		检测到异常后，将异常信息发送到request中 使用 ${shiroLoginFailure}接收
 		if ( ae instanceof IncorrectCredentialsException ) {
 			//密码不正确
-			request.setAttribute(getFailureKeyAttribute(), SystemMessages.USERNAME_OR_PASSWORD_IS_WRONG.getMessage());
+			request.setAttribute(getFailureKeyAttribute(), SystemMessageEnum.USERNAME_OR_PASSWORD_IS_WRONG.getMessage());
 		} else {
 			//检测到其他异常
 			request.setAttribute(getFailureKeyAttribute(), ae.getMessage());

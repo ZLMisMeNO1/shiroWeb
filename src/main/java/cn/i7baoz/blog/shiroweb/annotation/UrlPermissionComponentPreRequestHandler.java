@@ -17,7 +17,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
-import cn.i7baoz.blog.shiroweb.util.SystemMessages;
+import cn.i7baoz.blog.shiroweb.enums.SystemMessageEnum;
 
 /** 
  * ClassName:UrlPermissionComponentPreRequestHandler 
@@ -47,7 +47,7 @@ public class UrlPermissionComponentPreRequestHandler {
 		if ( !currentUser.isPermitted(url )) {
 			//没有权限抛出异常并打印只控制台 ，后期可以做一个日志记录
 			log.info("user["+currentUser.getPrincipal()+"] try to connect [" +url+ "] at [" +System.currentTimeMillis()+ "]");
-			throw new AuthenticationException("["+desc+"]"+SystemMessages.USER_HAS_NO_PERMISSION.getMessage());
+			throw new AuthenticationException("["+desc+"]"+SystemMessageEnum.USER_HAS_NO_PERMISSION.getMessage());
 		} 
 	}
 }
