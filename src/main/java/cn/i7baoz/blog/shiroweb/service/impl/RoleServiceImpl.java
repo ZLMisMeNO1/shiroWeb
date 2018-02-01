@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import cn.i7baoz.blog.shiroweb.dao.RoleDao;
 import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
+import cn.i7baoz.blog.shiroweb.pojo.RolePermsBean;
 import cn.i7baoz.blog.shiroweb.service.RoleService;
 
 /** 
@@ -44,13 +45,14 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public void correlationPermissions(String roleId, String... permissionIds) {
-		roleDao.correlationPermissions(roleId, permissionIds);
+	public RolePermsBean correlationPermissions(String roleId, String... permissionIds) {
+		return roleDao.correlationPermissions(roleId, permissionIds);
 	}
 
 	@Override
-	public void uncorrelationPermissions(String roleId, String... permissionIds) {
-		roleDao.uncorrelationPermissions(roleId, permissionIds);
+	public RolePermsBean uncorrelationPermissions(String roleId, String... permissionIds) {
+		return roleDao.uncorrelationPermissions(roleId, permissionIds);
+		
 	}
 
 	@Override

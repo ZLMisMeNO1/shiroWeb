@@ -10,8 +10,12 @@ package cn.i7baoz.blog.shiroweb.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,9 +24,13 @@ import org.springframework.web.servlet.ModelAndView;
 import cn.i7baoz.blog.shiroweb.annotation.UrlPermissionComponent;
 import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
 import cn.i7baoz.blog.shiroweb.pojo.UserBean;
+import cn.i7baoz.blog.shiroweb.pojo.UserOptionLogBean;
+import cn.i7baoz.blog.shiroweb.pojo.UserRolesBean;
 import cn.i7baoz.blog.shiroweb.service.RoleService;
 import cn.i7baoz.blog.shiroweb.service.UserService;
 import cn.i7baoz.blog.shiroweb.dto.ResultMap;
+import cn.i7baoz.blog.shiroweb.enums.LogTopicEnum;
+import cn.i7baoz.blog.shiroweb.enums.OptionEnmu;
 import cn.i7baoz.blog.shiroweb.enums.SystemMessageEnum;
 
 /** 
@@ -36,10 +44,13 @@ import cn.i7baoz.blog.shiroweb.enums.SystemMessageEnum;
  */
 @Controller
 @RequestMapping("usermanage")
-public class UserManageController {
+public class UserManageController extends BaseController{
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private KafkaTemplate<String, UserOptionLogBean> kafkaProducer;
 	
 	@RequestMapping("main")
 	@UrlPermissionComponent(desc = "用户管理", isView = true, url = "usermanage/main",isMenu=true,sortNumber=2)
@@ -93,14 +104,26 @@ public class UserManageController {
 	@RequestMapping("create")
 	@ResponseBody
 	@UrlPermissionComponent(url="usermanage/create",desc="创建用户",isView=false,belong="usermanage/main")
-	public ResultMap<UserBean> createUser (String username,String password) throws AuthenticationException{
+	public ResultMap<UserBean> createUser (String username,String password
+			,HttpServletRequest request) throws AuthenticationException{
 		
 		if ( username.trim().isEmpty() || password.trim().isEmpty() ) {
 			throw new AuthenticationException(SystemMessageEnum.USERNAM_OR_PASSWORD_IS_NULL.getMessage());
 		}
+		UserBean bean = userService.createUser(username,password);
 		ResultMap<UserBean> resultMap = new ResultMap<UserBean>();
 		resultMap.setSuccess(true);
-		resultMap.setData(userService.createUser(username,password));
+		resultMap.setData(bean);
+		
+		//*************************日志***********************
+    	kafkaProducer.send(LogTopicEnum.USER_LOGS.name(),
+    			UserOptionLogBean.toLog(String.valueOf(SecurityUtils.getSubject().getPrincipal()),
+    					LogTopicEnum.USER_LOGS, 
+    					OptionEnmu.CREATE, 
+    					bean,
+    					getIp(request)));
+    	//***************************************************
+    	
 		return resultMap;
 	}
 	
@@ -118,15 +141,37 @@ public class UserManageController {
 	@RequestMapping("correlationRoles")
 	@ResponseBody
 	@UrlPermissionComponent(url="usermanage/correlationRoles",desc="添加用户-角色接口",isView=false,belong="usermanage/main")
-	public void correlationRoles(String userId, String[] roleIds) {
-		userService.correlationRoles(userId, roleIds);
+	public void correlationRoles(String userId, String[] roleIds
+			,HttpServletRequest request) {
+		
+		UserRolesBean bean = userService.correlationRoles(userId, roleIds);
+		
+		//*************************日志***********************
+    	kafkaProducer.send(LogTopicEnum.USER_ROLE_LOGS.name(),
+    			UserOptionLogBean.toLog(String.valueOf(SecurityUtils.getSubject().getPrincipal()),
+    					LogTopicEnum.USER_ROLE_LOGS, 
+    					OptionEnmu.ADD, 
+    					bean,
+    					getIp(request)));
+    	//***************************************************
+    	
 	}
 	
 	@RequestMapping("uncorrelationRoles")
 	@ResponseBody
 	@UrlPermissionComponent(url="usermanage/uncorrelationRoles",desc="移除用户-角色接口",isView=false,belong="usermanage/main")
-	public void uncorrelationRoles(String userId, String[] roleIds) {
-		userService.uncorrelationRoles(userId, roleIds);
+	public void uncorrelationRoles(String userId, String[] roleIds
+			,HttpServletRequest request) {
+		UserRolesBean bean = userService.uncorrelationRoles(userId, roleIds);
+		
+		//*************************日志***********************
+    	kafkaProducer.send(LogTopicEnum.USER_ROLE_LOGS.name(),
+    			UserOptionLogBean.toLog(String.valueOf(SecurityUtils.getSubject().getPrincipal()),
+    					LogTopicEnum.USER_ROLE_LOGS, 
+    					OptionEnmu.DELETE, 
+    					bean,
+    					getIp(request)));
+    	//***************************************************
 	}
 }
  

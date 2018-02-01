@@ -19,6 +19,7 @@ import cn.i7baoz.blog.shiroweb.enums.CurrentStatusEnum;
 import cn.i7baoz.blog.shiroweb.pojo.PermissionBean;
 import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
 import cn.i7baoz.blog.shiroweb.pojo.UserBean;
+import cn.i7baoz.blog.shiroweb.pojo.UserRolesBean;
 import cn.i7baoz.blog.shiroweb.service.UserService;
 import cn.i7baoz.blog.shiroweb.enums.SystemMessageEnum;
 import cn.i7baoz.blog.shiroweb.util.PasswordHelper;
@@ -68,13 +69,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void correlationRoles(String userId, String... roleIds) throws AuthenticationException{
-		userDao.correlationRoles(userId, roleIds);
+	public UserRolesBean correlationRoles(String userId, String... roleIds) throws AuthenticationException{
+		return userDao.correlationRoles(userId, roleIds);
 	}
 
 	@Override
-	public void uncorrelationRoles(String userId, String... roleIds) throws AuthenticationException{
-		userDao.uncorrelationRoles(userId, roleIds);
+	public UserRolesBean uncorrelationRoles(String userId, String... roleIds) throws AuthenticationException{
+		return userDao.uncorrelationRoles(userId, roleIds);
 	}
 
 	@Override

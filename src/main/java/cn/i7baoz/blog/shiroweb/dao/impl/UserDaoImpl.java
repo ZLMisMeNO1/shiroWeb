@@ -56,8 +56,8 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public void correlationRoles(String userId, String... roleIds) {
-		UserRolesBean bean;
+	public UserRolesBean correlationRoles(String userId, String... roleIds) {
+		UserRolesBean bean = null;
 		for ( String roleId : roleIds ) {
 			bean = getUserRolesBean(userId,roleId);
 			if ( null == bean ) {
@@ -68,18 +68,20 @@ public class UserDaoImpl implements UserDao{
 				sessionFactory.getCurrentSession().save(bean);
 			}
 		}
+		return bean;
 	}
 
 	@Override
-	public void uncorrelationRoles(String userId, String... roleIds) {
+	public UserRolesBean uncorrelationRoles(String userId, String... roleIds) {
 		
-		UserRolesBean bean;
+		UserRolesBean bean = null;
 		for ( String roleId : roleIds ) {
 			bean = getUserRolesBean(userId,roleId);
 			if ( null != bean ) {
 				sessionFactory.getCurrentSession().delete(bean);
 			}
 		}
+		return bean;
 	}
 
 	@SuppressWarnings("unchecked")

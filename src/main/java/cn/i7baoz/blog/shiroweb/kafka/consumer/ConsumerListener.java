@@ -9,7 +9,11 @@
 package cn.i7baoz.blog.shiroweb.kafka.consumer;  
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.listener.MessageListener;
+
+import cn.i7baoz.blog.shiroweb.pojo.UserOptionLogBean;
+import cn.i7baoz.blog.shiroweb.service.LogService;
 
 
 /** 
@@ -21,11 +25,16 @@ import org.springframework.kafka.listener.MessageListener;
  * @since    JDK 1.7 
  * @see       
  */
-public final class ConsumerListener implements MessageListener<String,String>{
+public final class ConsumerListener implements MessageListener<String,UserOptionLogBean>{
 
+	@Autowired
+	LogService logService;
+	
 	@Override
-    public void onMessage(ConsumerRecord<String, String> data) {
+    public void onMessage(ConsumerRecord<String, UserOptionLogBean> data) {
        System.out.println("消息： " + data);
+       System.out.println( data.value());
+       logService.save(data.value());
     }
 }
  

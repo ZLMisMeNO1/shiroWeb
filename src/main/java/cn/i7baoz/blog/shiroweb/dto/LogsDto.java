@@ -10,7 +10,6 @@ package cn.i7baoz.blog.shiroweb.dto;
 
 import java.sql.Timestamp;
 
-import com.alibaba.fastjson.JSONObject;
 
 import cn.i7baoz.blog.shiroweb.enums.LogTopicEnum;
 import cn.i7baoz.blog.shiroweb.enums.OptionEnmu;

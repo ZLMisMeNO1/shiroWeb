@@ -11,6 +11,8 @@ package cn.i7baoz.blog.shiroweb.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.subject.Subject;
@@ -29,6 +31,7 @@ import cn.i7baoz.blog.shiroweb.enums.LogTopicEnum;
 import cn.i7baoz.blog.shiroweb.enums.OptionEnmu;
 import cn.i7baoz.blog.shiroweb.pojo.PermissionBean;
 import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
+import cn.i7baoz.blog.shiroweb.pojo.RolePermsBean;
 import cn.i7baoz.blog.shiroweb.pojo.UserOptionLogBean;
 import cn.i7baoz.blog.shiroweb.service.PermissionService;
 import cn.i7baoz.blog.shiroweb.service.RoleService;
@@ -45,7 +48,7 @@ import cn.i7baoz.blog.shiroweb.service.UserService;
  */
 @Controller
 @RequestMapping("role")
-public class RoleManageController {
+public class RoleManageController extends BaseController{
 
 	@Autowired
 	private RoleService roleService;
@@ -54,7 +57,7 @@ public class RoleManageController {
 	private UserService userService;
 	
 	@Autowired
-	private KafkaTemplate<String, String> kafkaProducer;
+	private KafkaTemplate<String, UserOptionLogBean> kafkaProducer;
 	
 	//角色设置视图
 	@UrlPermissionComponent(url="role/roleSetting",desc="角色管理",isView=true,isMenu=true,sortNumber=1)
@@ -99,7 +102,8 @@ public class RoleManageController {
 	@UrlPermissionComponent(url="role/create",desc="创建角色",isView=false,belong="role/roleSetting")
 	public ResultMap<RoleBean> create(
 			@RequestParam(required=true)String roleName
-			,String desc) throws AuthenticationException{
+			,String desc
+			,HttpServletRequest request) throws AuthenticationException{
 		ResultMap<RoleBean> resultMap = new ResultMap<RoleBean>();
 		
 		String current_user = String.valueOf(SecurityUtils.getSubject().getPrincipal());
@@ -107,15 +111,20 @@ public class RoleManageController {
     	bean.setRoleName(roleName);
     	bean.setDescMsg(desc);
     	bean.setCreateUsername(current_user);
-//    	roleService.createRole(bean);
-    	
-//    	kafkaProducer.send(LogTopicEnum.ROLE_LOGS.name(),
-		kafkaProducer.send("test",
-    			UserOptionLogBean.toLogString(current_user,
-    					LogTopicEnum.ROLE_LOGS, OptionEnmu.CREATE, bean));
+    	roleService.createRole(bean);
     	
     	resultMap.setSuccess(true);
     	resultMap.setData(bean);
+    	
+    	//*************************日志***********************
+    	kafkaProducer.send(LogTopicEnum.ROLE_LOGS.name(),
+    			UserOptionLogBean.toLog(current_user,
+    					LogTopicEnum.ROLE_LOGS, 
+    					OptionEnmu.CREATE, 
+    					bean,
+    					getIp(request)));
+    	//***************************************************
+    	
     	return resultMap;
 	}
 	
@@ -134,15 +143,36 @@ public class RoleManageController {
 	@RequestMapping("correlationPermissions")
 	@ResponseBody
 	@UrlPermissionComponent(url="role/correlationPermissions",desc="添加角色-权限接口",isView=false,belong="role/roleSetting")
-	public void correlationPermissions(String roleId, String[] permissionIds) {
-		roleService.correlationPermissions(roleId, permissionIds);
+	public void correlationPermissions(String roleId, String[] permissionIds,HttpServletRequest request) {
+		RolePermsBean bean =  roleService.correlationPermissions(roleId, permissionIds);
+		//*************************日志***********************
+    	kafkaProducer.send(LogTopicEnum.ROLE_PERMISSION_LOGS.name(),
+    			UserOptionLogBean.toLog(
+    					String.valueOf(SecurityUtils.getSubject().getPrincipal()),
+    					LogTopicEnum.ROLE_PERMISSION_LOGS, 
+    					OptionEnmu.ADD, 
+    					bean,
+    					getIp(request)));
+    	//***************************************************
+    	
 	}
 	
 	@RequestMapping("uncorrelationPermissions")
 	@ResponseBody
 	@UrlPermissionComponent(url="role/uncorrelationPermissions",desc="移除角色-权限接口",isView=false,belong="role/roleSetting")
-	public void uncorrelationPermissions(String roleId, String[] permissionIds) {
-		roleService.uncorrelationPermissions(roleId, permissionIds);
+	public void uncorrelationPermissions(String roleId, String[] permissionIds,HttpServletRequest request) {
+		
+		RolePermsBean bean = roleService.uncorrelationPermissions(roleId, permissionIds);
+		//*************************日志***********************
+    	kafkaProducer.send(LogTopicEnum.ROLE_PERMISSION_LOGS.name(),
+    			UserOptionLogBean.toLog(
+    					String.valueOf(SecurityUtils.getSubject().getPrincipal()),
+    					LogTopicEnum.ROLE_PERMISSION_LOGS, 
+    					OptionEnmu.DELETE, 
+    					bean,
+    					getIp(request)));
+    	//***************************************************
+	
 	}
 	
 	@Autowired

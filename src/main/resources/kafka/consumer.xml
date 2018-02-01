@@ -21,7 +21,7 @@
                 <entry key="auto.commit.interval.ms" value="1000"/>
                 <entry key="session.timeout.ms" value="30000"/>
                 <entry key="key.deserializer" value="org.apache.kafka.common.serialization.StringDeserializer"/>
-                <entry key="value.deserializer" value="org.apache.kafka.common.serialization.StringDeserializer"/>
+                <entry key="value.deserializer" value="cn.i7baoz.blog.shiroweb.kafka.consumer.LogDtoDeserializer"/>
             </map>
         </constructor-arg>
     </bean>
@@ -39,7 +39,15 @@
     <!-- 消费者容器配置信息 -->
     <bean id="containerProperties" class="org.springframework.kafka.listener.config.ContainerProperties">
         <!-- 重要！配置topic -->
-        <constructor-arg value="test"/>
+       <!--  <constructor-arg value="test"/> -->
+        <constructor-arg name="topics">
+             <list>
+                 <value>ROLE_LOGS</value>
+                 <value>USER_LOGS</value>
+                 <value>USER_ROLE_LOGS</value>
+                 <value>ROLE_PERMISSION_LOGS</value>
+             </list>
+         </constructor-arg>
         <property name="messageListener" ref="messageListernerConsumerService"/>
     </bean>
 

@@ -28,7 +28,7 @@ import cn.i7baoz.blog.shiroweb.service.PermissionService;
  * @see       
  */
 @Controller
-public class IndexController {
+public class IndexController extends BaseController{
 
 	@Autowired
 	PermissionService permissionService;

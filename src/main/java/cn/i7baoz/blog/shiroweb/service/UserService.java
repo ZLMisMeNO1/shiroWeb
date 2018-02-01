@@ -15,6 +15,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import cn.i7baoz.blog.shiroweb.pojo.PermissionBean;
 import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
 import cn.i7baoz.blog.shiroweb.pojo.UserBean;
+import cn.i7baoz.blog.shiroweb.pojo.UserRolesBean;
 
 /** 
  * ClassName:UserService 
@@ -45,7 +46,7 @@ public interface UserService {
      * @param userId
      * @param roleIds
      */
-    public void correlationRoles(String userId, String... roleIds) throws AuthenticationException;
+    public UserRolesBean correlationRoles(String userId, String... roleIds) throws AuthenticationException;
 
 
     /**
@@ -53,7 +54,7 @@ public interface UserService {
      * @param userId
      * @param roleIds
      */
-    public void uncorrelationRoles(String userId, String... roleIds) throws AuthenticationException;
+    public UserRolesBean uncorrelationRoles(String userId, String... roleIds) throws AuthenticationException;
 
     /**
      * 根据用户名查找用户

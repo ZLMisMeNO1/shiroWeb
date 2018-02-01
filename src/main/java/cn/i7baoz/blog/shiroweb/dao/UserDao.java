@@ -13,6 +13,7 @@ import java.util.List;
 import cn.i7baoz.blog.shiroweb.pojo.PermissionBean;
 import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
 import cn.i7baoz.blog.shiroweb.pojo.UserBean;
+import cn.i7baoz.blog.shiroweb.pojo.UserRolesBean;
 
 /** 
  * ClassName:UserDao 
@@ -33,10 +34,10 @@ public interface UserDao {
     public void deleteUser(String userId);
 
     //添加角色
-    public void correlationRoles(String userId, String... roleIds);
+    public UserRolesBean correlationRoles(String userId, String... roleIds);
     
     //删除角色
-    public void uncorrelationRoles(String userId, String... roleIds);
+    public UserRolesBean uncorrelationRoles(String userId, String... roleIds);
 
     //根据id获取用户
     UserBean findOne(String userId);

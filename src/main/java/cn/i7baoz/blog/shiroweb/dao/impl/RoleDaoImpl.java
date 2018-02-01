@@ -61,8 +61,8 @@ public class RoleDaoImpl implements RoleDao {
 	}
 
 	@Override
-	public void correlationPermissions(String roleId, String... permissionIds) {
-		RolePermsBean bean;
+	public RolePermsBean correlationPermissions(String roleId, String... permissionIds) {
+		RolePermsBean bean = null;
 		for ( String permissionId : permissionIds ) {
 			bean = getRolePermBean(roleId,permissionId);
 			if ( null == bean ) {
@@ -74,22 +74,21 @@ public class RoleDaoImpl implements RoleDao {
 				sessionFactory.getCurrentSession().save(bean);
 			}
 		}
+		return bean;
 	}
 
 	@Override
-	public void uncorrelationPermissions(String roleId, String... permissionIds) {
+	public RolePermsBean uncorrelationPermissions(String roleId, String... permissionIds) {
 		
-		RolePermsBean bean;
+		RolePermsBean bean = null;
 		for ( String permissionId : permissionIds ) {
 			bean = getRolePermBean(roleId,permissionId);
 			if ( null != bean ) {
-//				Session session = sessionFactory.getCurrentSession();
-//				session.delete(bean);
-//				session.flush();
 				sessionFactory.getCurrentSession().delete(bean);
-//				sessionFactory.getCurrentSession().flush();
 			}
 		}
+		
+		return bean;
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -9,10 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
-
 import cn.i7baoz.blog.shiroweb.enums.LogTopicEnum;
 import cn.i7baoz.blog.shiroweb.enums.OptionEnmu;
-import cn.i7baoz.blog.shiroweb.util.Pojo2JSONStringUtil;
+import cn.i7baoz.blog.shiroweb.util.BeanUtil;
 /**
  * 
  * @ClassName: UserOptionLogBean 操作日志
@@ -44,13 +43,15 @@ public class UserOptionLogBean extends BaseBean{
 	private String optObject;
 	
 	//具体操作
-	private String option;
+	private String optionName;
 	
 	//操作时间
 	private Timestamp optTime = new Timestamp(System.currentTimeMillis());
 	
 	//操作结果
 	private String optResult;
+	
+	private String ip;
 
 	public String getOptId() {
 		return optId;
@@ -76,12 +77,12 @@ public class UserOptionLogBean extends BaseBean{
 		this.optObject = optObject;
 	}
 
-	public String getOption() {
-		return option;
+	public String getOptionName() {
+		return optionName;
 	}
 
-	public void setOption(String option) {
-		this.option = option;
+	public void setOptionName(String option) {
+		this.optionName = option;
 	}
 
 	public Timestamp getOptTime() {
@@ -100,33 +101,43 @@ public class UserOptionLogBean extends BaseBean{
 		this.optResult = optResult;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public String getIp() {
+		return ip;
 	}
-	
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
 	public UserOptionLogBean(String currentUser, String optObject,
-			String option, String optResult) {
+			String optionName, String optResult,String ip) {
 		super();
 		this.currentUser = currentUser;
 		this.optObject = optObject;
-		this.option = option;
+		this.optionName = optionName;
 		this.optResult = optResult;
+		this.ip = ip;
+	}
+
+	public UserOptionLogBean( String currentUser,
+			String optObject, String optionName, Timestamp optTime, String optResult,String ip) {
+		super();
+		this.currentUser = currentUser;
+		this.optObject = optObject;
+		this.optionName = optionName;
+		this.optTime = optTime;
+		this.optResult = optResult;
+		this.ip = ip;
 	}
 
 	public static UserOptionLogBean toLog(String currentUser,LogTopicEnum optObject
-			,OptionEnmu option,BaseBean result) {
+			,OptionEnmu option,BaseBean result,String ip) {
 		
 		return new UserOptionLogBean(currentUser,
 				optObject.name(),
 				option.name(),
-				Pojo2JSONStringUtil.toJSONString(result));
+				BeanUtil.toJSONString(result),ip);
 	}
 	
-	public static String toLogString(String currentUser,LogTopicEnum optObject
-			,OptionEnmu option,BaseBean result) {
-		
-		return Pojo2JSONStringUtil.toJSONString(
-				toLog(currentUser, optObject, option, result)
-				);
-	}
+	
 }

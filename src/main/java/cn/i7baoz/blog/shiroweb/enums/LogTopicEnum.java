@@ -17,11 +17,19 @@ package cn.i7baoz.blog.shiroweb.enums;
  * @see       
  */
 public enum LogTopicEnum {
-	//角色方面的操作
+	//角色添加，修改，删除
 	ROLE_LOGS,
 	
-	//用户方面的操作
-	USER_LOGS;
+	//用户添加，修改，删除
+	USER_LOGS,
+	
+	//用户-角色添加修改删除
+	USER_ROLE_LOGS,
+	
+	//角色权限的添加，修改，删除
+	ROLE_PERMISSION_LOGS
+	
+	;
 
 	
 }

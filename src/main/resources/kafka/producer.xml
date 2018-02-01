@@ -19,7 +19,7 @@
                 <entry key="linger.ms" value="1"/>
                 <entry key="buffer.memory" value="33554432"/>
                 <entry key="key.serializer" value="org.apache.kafka.common.serialization.StringSerializer"/>
-                <entry key="value.serializer" value="org.apache.kafka.common.serialization.StringSerializer"/>
+                <entry key="value.serializer" value="cn.i7baoz.blog.shiroweb.kafka.producer.LogDtoSerializer"/>
             </map>
         </constructor-arg>
     </bean>
